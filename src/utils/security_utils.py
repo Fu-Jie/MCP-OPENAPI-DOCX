@@ -59,13 +59,12 @@ def _truncate_to_72_bytes_utf8_safe(data):
 # Monkey-patch bcrypt to handle 72-byte limit before passlib loads
 # This ensures compatibility with bcrypt>=4.0.0 which enforces the limit strictly
 
-# Track whether bcrypt has been patched
+# Track whether bcrypt has been patched (module import is thread-safe in Python)
 _bcrypt_patched = False
 
 try:
     import bcrypt as _bcrypt
     
-    # Only patch if not already patched
     if not _bcrypt_patched:
         _original_hashpw = _bcrypt.hashpw
         _original_checkpw = _bcrypt.checkpw
