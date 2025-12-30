@@ -34,7 +34,7 @@ def _truncate_to_72_bytes_utf8_safe(data):
         - 0xF0-0xF7: 4-byte sequence start (11110xxx)
     """
     if isinstance(data, str):
-        data = data.encode('utf-8')
+        data = data.encode("utf-8")
     if len(data) <= 72:
         return data
 
@@ -75,7 +75,9 @@ try:
 
         def _patched_checkpw(password, hashed_password):
             """Patched checkpw that truncates passwords to 72 bytes."""
-            return _original_checkpw(_truncate_to_72_bytes_utf8_safe(password), hashed_password)
+            return _original_checkpw(
+                _truncate_to_72_bytes_utf8_safe(password), hashed_password
+            )
 
         _bcrypt.hashpw = _patched_hashpw
         _bcrypt.checkpw = _patched_checkpw
@@ -114,11 +116,11 @@ class SecurityUtils:
         truncated_bytes = _truncate_to_72_bytes_utf8_safe(password)
         # The truncation algorithm guarantees valid UTF-8, but be defensive
         try:
-            return truncated_bytes.decode('utf-8')
+            return truncated_bytes.decode("utf-8")
         except UnicodeDecodeError:
             # This should never happen with the current algorithm, but if it does,
             # fall back to strict truncation with error handling
-            return truncated_bytes.decode('utf-8', errors='ignore')
+            return truncated_bytes.decode("utf-8", errors="ignore")
 
     @staticmethod
     def hash_password(password: str) -> str:
