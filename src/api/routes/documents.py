@@ -7,7 +7,7 @@ import os
 import uuid
 from typing import Any
 
-from fastapi import APIRouter, Depends, File, UploadFile, status
+from fastapi import APIRouter, File, UploadFile, status
 
 from src.api.dependencies import DocHandler
 from src.core.config import get_settings
@@ -102,8 +102,8 @@ async def create_document(
     description="Upload a DOCX file.",
 )
 async def upload_document(
+    handler: DocHandler,
     file: UploadFile = File(...),
-    handler: DocHandler = Depends(),
 ) -> dict[str, Any]:
     """Upload a DOCX document.
 

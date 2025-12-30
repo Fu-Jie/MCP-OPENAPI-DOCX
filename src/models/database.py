@@ -104,7 +104,7 @@ class Document(Base):
         mime_type: File MIME type.
         status: Document status.
         version: Current version number.
-        metadata: Additional metadata as JSON.
+        doc_metadata: Additional metadata as JSON.
         owner_id: Reference to the owner user.
         created_at: Creation timestamp.
         updated_at: Last update timestamp.
@@ -126,7 +126,7 @@ class Document(Base):
         Enum(DocumentStatus), default=DocumentStatus.DRAFT, nullable=False
     )
     version: Mapped[int] = mapped_column(Integer, default=1, nullable=False)
-    metadata: Mapped[dict[str, Any] | None] = mapped_column(JSON, nullable=True)
+    doc_metadata: Mapped[dict[str, Any] | None] = mapped_column(JSON, nullable=True)
     owner_id: Mapped[int] = mapped_column(
         Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False
     )
@@ -314,7 +314,7 @@ class Template(Base):
         file_path: Path to template file.
         category: Template category.
         is_public: Whether template is public.
-        metadata: Additional metadata as JSON.
+        template_metadata: Additional metadata as JSON.
         created_by_id: User who created the template.
         created_at: Creation timestamp.
         updated_at: Last update timestamp.
@@ -331,7 +331,9 @@ class Template(Base):
     file_path: Mapped[str] = mapped_column(String(500), nullable=False)
     category: Mapped[str | None] = mapped_column(String(100), nullable=True)
     is_public: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
-    metadata: Mapped[dict[str, Any] | None] = mapped_column(JSON, nullable=True)
+    template_metadata: Mapped[dict[str, Any] | None] = mapped_column(
+        JSON, nullable=True
+    )
     created_by_id: Mapped[int | None] = mapped_column(
         Integer, ForeignKey("users.id", ondelete="SET NULL"), nullable=True
     )
