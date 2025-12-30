@@ -5,9 +5,7 @@ and track changes in DOCX documents.
 """
 
 from datetime import datetime
-from typing import Any
-
-from docx import Document
+from typing import Any, Optional
 
 from src.core.enums import RevisionAction
 from src.core.exceptions import ValidationError
@@ -20,7 +18,7 @@ class RevisionHandler:
     and track changes in DOCX documents.
     """
 
-    def __init__(self, document: Document | None = None) -> None:
+    def __init__(self, document: Optional[Any] = None) -> None:
         """Initialize the revision handler.
 
         Args:
@@ -32,13 +30,13 @@ class RevisionHandler:
         self._tracking_enabled = False
 
     @property
-    def document(self) -> Document:
+    def document(self) -> Any:
         """Get the document instance."""
         if self._document is None:
             raise ValueError("No document loaded")
         return self._document
 
-    def set_document(self, document: Document) -> None:
+    def set_document(self, document: Any) -> None:
         """Set the document instance.
 
         Args:

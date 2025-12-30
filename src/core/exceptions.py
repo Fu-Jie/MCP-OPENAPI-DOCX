@@ -81,6 +81,34 @@ class DocumentNotFoundError(BaseDocxException):
         self.document_id = document_id
 
 
+class TemplateNotFoundError(BaseDocxException):
+    """Exception raised when a template is not found.
+
+    Attributes:
+        template_id: ID of the template that was not found.
+    """
+
+    def __init__(
+        self,
+        template_id: str | int | None = None,
+        message: str = "Template not found",
+    ) -> None:
+        """Initialize the exception.
+
+        Args:
+            template_id: ID of the template that was not found.
+            message: Human-readable error message.
+        """
+        details = {"template_id": template_id} if template_id else {}
+        super().__init__(
+            message=message,
+            code="TEMPLATE_NOT_FOUND",
+            status_code=404,
+            details=details,
+        )
+        self.template_id = template_id
+
+
 class InvalidDocumentError(BaseDocxException):
     """Exception raised when a document is invalid or corrupted."""
 
@@ -99,6 +127,28 @@ class InvalidDocumentError(BaseDocxException):
             message=message,
             code="INVALID_DOCUMENT",
             status_code=400,
+            details=details or {},
+        )
+
+
+class DocumentProcessingError(BaseDocxException):
+    """Exception raised when document processing fails."""
+
+    def __init__(
+        self,
+        message: str = "Document processing failed",
+        details: dict[str, Any] | None = None,
+    ) -> None:
+        """Initialize the exception.
+
+        Args:
+            message: Human-readable error message.
+            details: Additional error details.
+        """
+        super().__init__(
+            message=message,
+            code="DOCUMENT_PROCESSING_ERROR",
+            status_code=500,
             details=details or {},
         )
 

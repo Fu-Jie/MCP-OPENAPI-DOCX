@@ -4,9 +4,8 @@ This module provides functionality for managing table of contents,
 bookmarks, and hyperlinks in DOCX documents.
 """
 
-from typing import Any
+from typing import Any, Optional
 
-from docx import Document
 from docx.oxml import parse_xml
 from docx.oxml.ns import nsdecls, qn
 
@@ -21,7 +20,7 @@ class TocHandler:
     bookmarks, and hyperlinks in DOCX documents.
     """
 
-    def __init__(self, document: Document | None = None) -> None:
+    def __init__(self, document: Optional[Any] = None) -> None:
         """Initialize the TOC handler.
 
         Args:
@@ -30,13 +29,13 @@ class TocHandler:
         self._document = document
 
     @property
-    def document(self) -> Document:
+    def document(self) -> Any:
         """Get the document instance."""
         if self._document is None:
             raise ValueError("No document loaded")
         return self._document
 
-    def set_document(self, document: Document) -> None:
+    def set_document(self, document: Any) -> None:
         """Set the document instance.
 
         Args:
@@ -48,7 +47,7 @@ class TocHandler:
         self,
         title: str = "Table of Contents",
         max_level: int = 3,
-        paragraph_index: int | None = None,
+        paragraph_index: Optional[int] = None,
     ) -> int:
         """Add a table of contents to the document.
 

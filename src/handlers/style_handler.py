@@ -5,9 +5,8 @@ styles in DOCX documents.
 """
 
 import contextlib
-from typing import Any
+from typing import Any, Optional
 
-from docx import Document
 from docx.enum.style import WD_STYLE_TYPE
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.shared import Pt, RGBColor
@@ -40,7 +39,7 @@ class StyleHandler:
         TextAlignment.DISTRIBUTE: WD_ALIGN_PARAGRAPH.DISTRIBUTE,
     }
 
-    def __init__(self, document: Document | None = None) -> None:
+    def __init__(self, document: Optional[Any] = None) -> None:
         """Initialize the style handler.
 
         Args:
@@ -49,13 +48,13 @@ class StyleHandler:
         self._document = document
 
     @property
-    def document(self) -> Document:
+    def document(self) -> Any:
         """Get the document instance."""
         if self._document is None:
             raise ValueError("No document loaded")
         return self._document
 
-    def set_document(self, document: Document) -> None:
+    def set_document(self, document: Any) -> None:
         """Set the document instance.
 
         Args:

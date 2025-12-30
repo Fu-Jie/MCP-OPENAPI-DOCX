@@ -4,7 +4,7 @@ This module provides functionality for creating and managing
 bullet lists, numbered lists, and multi-level lists.
 """
 
-from docx import Document
+from typing import Any, Optional
 
 from src.core.enums import ListType, NumberingFormat
 from src.core.exceptions import ValidationError
@@ -18,7 +18,7 @@ class ListHandler:
     various types of lists in DOCX documents.
     """
 
-    def __init__(self, document: Document | None = None) -> None:
+    def __init__(self, document: Optional[Any] = None) -> None:
         """Initialize the list handler.
 
         Args:
@@ -27,13 +27,13 @@ class ListHandler:
         self._document = document
 
     @property
-    def document(self) -> Document:
+    def document(self) -> Any:
         """Get the document instance."""
         if self._document is None:
             raise ValueError("No document loaded")
         return self._document
 
-    def set_document(self, document: Document) -> None:
+    def set_document(self, document: Any) -> None:
         """Set the document instance.
 
         Args:
@@ -44,7 +44,7 @@ class ListHandler:
     def create_bullet_list(
         self,
         items: list[str],
-        paragraph_index: int | None = None,
+        paragraph_index: Optional[int] = None,
     ) -> int:
         """Create a bullet list.
 

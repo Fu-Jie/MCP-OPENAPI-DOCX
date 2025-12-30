@@ -67,6 +67,7 @@ ignore = [
     "B904",    # Within except clause, raise with from (too verbose for this project)
     "SIM102",  # Use single if statement instead of nested (sometimes nested is clearer)
     "N818",    # Exception name should be named with Error suffix
+    "UP045",   # Use X | None instead of Optional[X] - disabled for docx type compatibility
 ]
 
 [tool.mypy]

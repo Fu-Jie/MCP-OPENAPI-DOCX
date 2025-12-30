@@ -4,7 +4,8 @@ This module provides functionality for managing page layout settings
 including margins, page size, headers, footers, and sections.
 """
 
-from docx import Document
+from typing import Any, Optional
+
 from docx.enum.section import WD_ORIENT, WD_SECTION
 from docx.shared import Inches
 
@@ -40,7 +41,7 @@ class LayoutHandler:
         SectionStart.NEW_COLUMN: WD_SECTION.NEW_COLUMN,
     }
 
-    def __init__(self, document: Document | None = None) -> None:
+    def __init__(self, document: Optional[Any] = None) -> None:
         """Initialize the layout handler.
 
         Args:
@@ -49,13 +50,13 @@ class LayoutHandler:
         self._document = document
 
     @property
-    def document(self) -> Document:
+    def document(self) -> Any:
         """Get the document instance."""
         if self._document is None:
             raise ValueError("No document loaded")
         return self._document
 
-    def set_document(self, document: Document) -> None:
+    def set_document(self, document: Any) -> None:
         """Set the document instance.
 
         Args:

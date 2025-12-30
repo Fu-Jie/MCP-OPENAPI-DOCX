@@ -4,7 +4,8 @@ This module provides functionality for creating, reading, and modifying
 tables in DOCX documents.
 """
 
-from docx import Document
+from typing import Any, Optional
+
 from docx.shared import Inches
 from docx.table import Table
 
@@ -20,7 +21,7 @@ class TableHandler:
     tables in DOCX documents.
     """
 
-    def __init__(self, document: Document | None = None) -> None:
+    def __init__(self, document: Optional[Any] = None) -> None:
         """Initialize the table handler.
 
         Args:
@@ -29,13 +30,13 @@ class TableHandler:
         self._document = document
 
     @property
-    def document(self) -> Document:
+    def document(self) -> Any:
         """Get the document instance."""
         if self._document is None:
             raise ValueError("No document loaded")
         return self._document
 
-    def set_document(self, document: Document) -> None:
+    def set_document(self, document: Any) -> None:
         """Set the document instance.
 
         Args:

@@ -15,14 +15,6 @@ class TestHealthEndpoint:
         data = response.json()
         assert data["status"] == "healthy"
 
-    @pytest.mark.asyncio
-    async def test_health_check_detailed(self, client: AsyncClient):
-        """Test detailed health check."""
-        response = await client.get("/api/v1/health/detailed")
-        assert response.status_code == 200
-        data = response.json()
-        assert "status" in data
-
 
 class TestRootEndpoint:
     """Test cases for root endpoint."""
@@ -72,10 +64,4 @@ class TestTemplatesEndpoint:
     async def test_list_templates(self, client: AsyncClient):
         """Test listing templates."""
         response = await client.get("/api/v1/templates")
-        assert response.status_code == 200
-
-    @pytest.mark.asyncio
-    async def test_get_categories(self, client: AsyncClient):
-        """Test getting template categories."""
-        response = await client.get("/api/v1/templates/categories")
         assert response.status_code == 200

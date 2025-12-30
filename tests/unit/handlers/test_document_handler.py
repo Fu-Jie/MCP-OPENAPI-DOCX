@@ -3,7 +3,7 @@
 import os
 
 import pytest
-from docx import Document
+from docx.document import Document as DocumentType
 
 from src.handlers.document_handler import DocumentHandler
 
@@ -19,13 +19,13 @@ class TestDocumentHandler:
         """Test creating a new document."""
         doc = self.handler.create_document()
         assert doc is not None
-        assert isinstance(doc, Document)
+        assert isinstance(doc, DocumentType)
 
     def test_open_document(self, sample_document_path):
         """Test opening a document from file."""
         doc = self.handler.open_document(sample_document_path)
         assert doc is not None
-        assert isinstance(doc, Document)
+        assert isinstance(doc, DocumentType)
 
     def test_open_document_invalid_path(self):
         """Test opening a document from invalid path."""
@@ -61,7 +61,7 @@ class TestDocumentHandler:
         """Test loading document from bytes."""
         doc = self.handler.open_from_bytes(sample_docx_content)
         assert doc is not None
-        assert isinstance(doc, Document)
+        assert isinstance(doc, DocumentType)
 
     def test_document_to_bytes(self, sample_document_path):
         """Test converting document to bytes."""

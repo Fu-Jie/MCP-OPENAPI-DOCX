@@ -91,7 +91,9 @@ def app():
 @pytest.fixture
 async def client(app) -> AsyncGenerator[AsyncClient, None]:
     """Get async test client."""
-    async with AsyncClient(app=app, base_url="http://test") as ac:
+    from httpx import ASGITransport
+    transport = ASGITransport(app=app)
+    async with AsyncClient(transport=transport, base_url="http://test") as ac:
         yield ac
 
 
