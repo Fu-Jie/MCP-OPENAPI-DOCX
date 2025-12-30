@@ -1,0 +1,101 @@
+# Project metadata (for reference only, dependencies managed via requirements.txt)
+[project]
+name = "mcp-openapi-docx"
+version = "1.0.0"
+description = "Enterprise-grade document editing and management server supporting MCP and OpenAPI protocols for DOCX documents"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.10"
+authors = [
+    {name = "Jeff", email = "jeff@example.com"}
+]
+keywords = ["mcp", "openapi", "docx", "document", "editing", "fastapi"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Framework :: FastAPI",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Office/Business :: Office Suites",
+    "Topic :: Text Processing :: Markup",
+]
+
+[project.urls]
+Repository = "https://github.com/Fu-Jie/MCP-OPENAPI-DOCX"
+
+# Tool configurations
+
+[tool.black]
+line-length = 88
+target-version = ['py310', 'py311', 'py312']
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+  | alembic
+)/
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 88
+skip = [".git", ".venv", "alembic"]
+known_first_party = ["src"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "N", "UP", "B", "C4", "SIM"]
+ignore = [
+    "E501",    # Line too long (handled by formatter)
+    "B008",    # Do not perform function call in argument defaults (FastAPI pattern)
+    "B904",    # Within except clause, raise with from (too verbose for this project)
+    "SIM102",  # Use single if statement instead of nested (sometimes nested is clearer)
+    "N818",    # Exception name should be named with Error suffix
+    "UP045",   # Use X | None instead of Optional[X] - disabled for docx type compatibility
+]
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+ignore_missing_imports = true
+plugins = ["pydantic.mypy"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_functions = ["test_*"]
+addopts = "-v --tb=short --cov=src --cov-report=term-missing --cov-report=html"
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::UserWarning",
+]
+
+[tool.coverage.run]
+source = ["src"]
+omit = ["*/tests/*", "*/__pycache__/*", "*/alembic/*"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise NotImplementedError",
+    "if TYPE_CHECKING:",
+    "if __name__ == .__main__.:",
+]

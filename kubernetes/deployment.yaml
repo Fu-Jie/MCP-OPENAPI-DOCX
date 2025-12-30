@@ -1,0 +1,144 @@
+# Kubernetes Deployment for MCP-OPENAPI-DOCX
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: docx-api
+  namespace: docx
+  labels:
+    app: docx-api
+    version: v1
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: docx-api
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: docx-api
+        version: v1
+    spec:
+      containers:
+        - name: api
+          image: mcp-openapi-docx:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8000
+              name: http
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: docx-secrets
+                  key: database-url
+            - name: REDIS_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: docx-config
+                  key: redis-url
+            - name: SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: docx-secrets
+                  key: secret-key
+            - name: ENVIRONMENT
+              value: "production"
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          livenessProbe:
+            httpGet:
+              path: /api/v1/health
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 30
+            timeoutSeconds: 10
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /api/v1/health
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          volumeMounts:
+            - name: uploads
+              mountPath: /app/uploads
+            - name: exports
+              mountPath: /app/exports
+      volumes:
+        - name: uploads
+          persistentVolumeClaim:
+            claimName: docx-uploads-pvc
+        - name: exports
+          persistentVolumeClaim:
+            claimName: docx-exports-pvc
+---
+# Celery Worker Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: docx-celery-worker
+  namespace: docx
+  labels:
+    app: docx-celery-worker
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: docx-celery-worker
+  template:
+    metadata:
+      labels:
+        app: docx-celery-worker
+    spec:
+      containers:
+        - name: worker
+          image: mcp-openapi-docx:latest
+          imagePullPolicy: Always
+          command: ["celery", "-A", "src.tasks.celery_app", "worker", "--loglevel=info"]
+          env:
+            - name: DATABASE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: docx-secrets
+                  key: database-url
+            - name: CELERY_BROKER_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: docx-config
+                  key: celery-broker-url
+            - name: CELERY_RESULT_BACKEND
+              valueFrom:
+                configMapKeyRef:
+                  name: docx-config
+                  key: celery-result-backend
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          volumeMounts:
+            - name: uploads
+              mountPath: /app/uploads
+            - name: exports
+              mountPath: /app/exports
+      volumes:
+        - name: uploads
+          persistentVolumeClaim:
+            claimName: docx-uploads-pvc
+        - name: exports
+          persistentVolumeClaim:
+            claimName: docx-exports-pvc
