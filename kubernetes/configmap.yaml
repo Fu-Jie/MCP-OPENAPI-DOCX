@@ -1,0 +1,59 @@
+# Kubernetes ConfigMap for MCP-OPENAPI-DOCX
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: docx-config
+  namespace: docx
+  labels:
+    app: docx-api
+data:
+  # Application settings
+  app-name: "MCP-OPENAPI-DOCX"
+  app-version: "1.0.0"
+  environment: "production"
+  debug: "false"
+
+  # Server settings
+  host: "0.0.0.0"
+  port: "8000"
+  workers: "4"
+
+  # Redis settings
+  redis-url: "redis://redis-service:6379/0"
+  redis-cache-ttl: "3600"
+
+  # Celery settings
+  celery-broker-url: "redis://redis-service:6379/1"
+  celery-result-backend: "redis://redis-service:6379/2"
+
+  # CORS settings
+  cors-origins: '["https://example.com", "https://app.example.com"]'
+  cors-allow-credentials: "true"
+
+  # File settings
+  upload-dir: "/app/uploads"
+  export-dir: "/app/exports"
+  temp-dir: "/app/temp"
+  max-upload-size: "104857600"
+
+  # Logging settings
+  log-level: "INFO"
+  log-format: "json"
+
+  # MCP settings
+  mcp-server-name: "docx-mcp-server"
+  mcp-server-version: "1.0.0"
+  mcp-transport: "stdio"
+
+  # Document processing
+  max-document-size: "52428800"
+  max-concurrent-documents: "10"
+  document-timeout: "300"
+---
+# Namespace
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: docx
+  labels:
+    name: docx

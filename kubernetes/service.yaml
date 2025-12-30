@@ -1,0 +1,77 @@
+# Kubernetes Service for MCP-OPENAPI-DOCX
+apiVersion: v1
+kind: Service
+metadata:
+  name: docx-api-service
+  namespace: docx
+  labels:
+    app: docx-api
+spec:
+  type: ClusterIP
+  selector:
+    app: docx-api
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8000
+      protocol: TCP
+---
+# NodePort Service for external access (development)
+apiVersion: v1
+kind: Service
+metadata:
+  name: docx-api-nodeport
+  namespace: docx
+  labels:
+    app: docx-api
+spec:
+  type: NodePort
+  selector:
+    app: docx-api
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8000
+      nodePort: 30080
+      protocol: TCP
+---
+# LoadBalancer Service for production
+apiVersion: v1
+kind: Service
+metadata:
+  name: docx-api-lb
+  namespace: docx
+  labels:
+    app: docx-api
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: nlb
+spec:
+  type: LoadBalancer
+  selector:
+    app: docx-api
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8000
+      protocol: TCP
+    - name: https
+      port: 443
+      targetPort: 8000
+      protocol: TCP
+---
+# Headless Service for StatefulSet (if needed)
+apiVersion: v1
+kind: Service
+metadata:
+  name: docx-api-headless
+  namespace: docx
+  labels:
+    app: docx-api
+spec:
+  clusterIP: None
+  selector:
+    app: docx-api
+  ports:
+    - name: http
+      port: 8000
+      protocol: TCP
