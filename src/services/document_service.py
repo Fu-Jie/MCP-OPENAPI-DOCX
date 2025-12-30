@@ -216,15 +216,11 @@ class DocumentService:
 
         # Delete versions
         await self.db.execute(
-            delete(DocumentVersion).where(
-                DocumentVersion.document_id == document_id
-            )
+            delete(DocumentVersion).where(DocumentVersion.document_id == document_id)
         )
 
         # Delete document
-        await self.db.execute(
-            delete(Document).where(Document.id == document_id)
-        )
+        await self.db.execute(delete(Document).where(Document.id == document_id))
 
         await self.db.commit()
         return True

@@ -139,7 +139,10 @@ def cache_key(*args: Any, **kwargs: Any) -> str:
         Cache key string.
     """
     key_data = json.dumps(
-        {"args": [str(a) for a in args], "kwargs": {str(k): str(v) for k, v in kwargs.items()}},
+        {
+            "args": [str(a) for a in args],
+            "kwargs": {str(k): str(v) for k, v in kwargs.items()},
+        },
         sort_keys=True,
     )
     return hashlib.md5(key_data.encode()).hexdigest()
@@ -154,6 +157,7 @@ def cached(ttl: int = 3600) -> Callable:
     Returns:
         Decorator function.
     """
+
     def decorator(func: Callable[..., T]) -> Callable[..., T]:
         @wraps(func)
         def wrapper(*args: Any, **kwargs: Any) -> T:
@@ -164,7 +168,9 @@ def cached(ttl: int = 3600) -> Callable:
             result = func(*args, **kwargs)
             _cache.set(key, result, ttl)
             return result
+
         return wrapper
+
     return decorator
 
 
@@ -177,6 +183,7 @@ def async_cached(ttl: int = 3600) -> Callable:
     Returns:
         Decorator function.
     """
+
     def decorator(func: Callable[..., T]) -> Callable[..., T]:
         @wraps(func)
         async def wrapper(*args: Any, **kwargs: Any) -> T:
@@ -187,7 +194,9 @@ def async_cached(ttl: int = 3600) -> Callable:
             result = await func(*args, **kwargs)
             _cache.set(key, result, ttl)
             return result
+
         return wrapper
+
     return decorator
 
 

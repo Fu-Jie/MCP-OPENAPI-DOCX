@@ -4,7 +4,6 @@ This module provides functionality for creating, reading, and modifying
 tables in DOCX documents.
 """
 
-
 from docx import Document
 from docx.shared import Inches
 from docx.table import Table
@@ -79,10 +78,7 @@ class TableHandler:
         Returns:
             List of table DTOs.
         """
-        return [
-            self.get_table(i)
-            for i in range(len(self._document.tables))
-        ]
+        return [self.get_table(i) for i in range(len(self._document.tables))]
 
     def add_table(
         self,
@@ -143,9 +139,7 @@ class TableHandler:
         self._validate_table_dimensions(rows, cols)
 
         if paragraph_index < 0 or paragraph_index >= len(self._document.paragraphs):
-            raise ValidationError(
-                f"Paragraph index {paragraph_index} out of range"
-            )
+            raise ValidationError(f"Paragraph index {paragraph_index} out of range")
 
         # Create table and insert after the paragraph
         table = self._document.add_table(rows=rows, cols=cols)
@@ -400,10 +394,7 @@ class TableHandler:
         self._validate_table_index(table_index)
         table = self._document.tables[table_index]
 
-        return [
-            [cell.text for cell in row.cells]
-            for row in table.rows
-        ]
+        return [[cell.text for cell in row.cells] for row in table.rows]
 
     def _validate_table_index(self, index: int) -> None:
         """Validate that a table index is in range.
@@ -430,13 +421,9 @@ class TableHandler:
             ValidationError: If dimensions exceed limits.
         """
         if rows < 1 or rows > MAX_TABLE_ROWS:
-            raise ValidationError(
-                f"Rows must be between 1 and {MAX_TABLE_ROWS}"
-            )
+            raise ValidationError(f"Rows must be between 1 and {MAX_TABLE_ROWS}")
         if cols < 1 or cols > MAX_TABLE_COLUMNS:
-            raise ValidationError(
-                f"Columns must be between 1 and {MAX_TABLE_COLUMNS}"
-            )
+            raise ValidationError(f"Columns must be between 1 and {MAX_TABLE_COLUMNS}")
 
     def _validate_cell_indices(self, table: Table, row: int, col: int) -> None:
         """Validate cell indices for a table.

@@ -92,12 +92,14 @@ class CompressionUtils:
         contents = []
         with zipfile.ZipFile(buffer, "r") as zf:
             for info in zf.infolist():
-                contents.append({
-                    "filename": info.filename,
-                    "file_size": info.file_size,
-                    "compress_size": info.compress_size,
-                    "is_dir": info.is_dir(),
-                })
+                contents.append(
+                    {
+                        "filename": info.filename,
+                        "file_size": info.file_size,
+                        "compress_size": info.compress_size,
+                        "is_dir": info.is_dir(),
+                    }
+                )
         return contents
 
     @staticmethod

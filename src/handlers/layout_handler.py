@@ -4,7 +4,6 @@ This module provides functionality for managing page layout settings
 including margins, page size, headers, footers, and sections.
 """
 
-
 from docx import Document
 from docx.enum.section import WD_ORIENT, WD_SECTION
 from docx.shared import Inches
@@ -74,10 +73,16 @@ class LayoutHandler:
             page_width=section.page_width.inches if section.page_width else None,
             page_height=section.page_height.inches if section.page_height else None,
             margin_top=section.top_margin.inches if section.top_margin else None,
-            margin_bottom=section.bottom_margin.inches if section.bottom_margin else None,
+            margin_bottom=(
+                section.bottom_margin.inches if section.bottom_margin else None
+            ),
             margin_left=section.left_margin.inches if section.left_margin else None,
             margin_right=section.right_margin.inches if section.right_margin else None,
-            orientation="landscape" if section.orientation == WD_ORIENT.LANDSCAPE else "portrait",
+            orientation=(
+                "landscape"
+                if section.orientation == WD_ORIENT.LANDSCAPE
+                else "portrait"
+            ),
         )
 
     def get_all_sections(self) -> list[SectionDTO]:
@@ -86,10 +91,7 @@ class LayoutHandler:
         Returns:
             List of section DTOs.
         """
-        return [
-            self.get_section(i)
-            for i in range(len(self._document.sections))
-        ]
+        return [self.get_section(i) for i in range(len(self._document.sections))]
 
     def set_page_layout(
         self,
@@ -209,9 +211,7 @@ class LayoutHandler:
 
         # Get the new section and set its start type
         section = self._document.sections[-1]
-        section.start_type = self.SECTION_START_MAP.get(
-            start_type, WD_SECTION.NEW_PAGE
-        )
+        section.start_type = self.SECTION_START_MAP.get(start_type, WD_SECTION.NEW_PAGE)
 
         return len(self._document.sections) - 1
 

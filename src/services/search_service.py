@@ -52,9 +52,7 @@ class SearchService:
         """
         try:
             doc = self.document_handler.load_document(document_path)
-            return self.text_handler.search_text(
-                doc, query, case_sensitive, whole_word
-            )
+            return self.text_handler.search_text(doc, query, case_sensitive, whole_word)
         except Exception as e:
             raise DocumentProcessingError(f"Failed to search: {str(e)}")
 

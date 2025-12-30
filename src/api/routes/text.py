@@ -41,6 +41,7 @@ def get_text_handler(document_id: str) -> TextHandler:
         raise DocumentNotFoundError(document_id)
 
     from src.handlers.document_handler import DocumentHandler
+
     doc_handler = DocumentHandler()
     doc_handler.open_document(file_path)
     return TextHandler(doc_handler.document)
@@ -143,6 +144,7 @@ async def add_paragraph(
         raise DocumentNotFoundError(document_id)
 
     from src.handlers.document_handler import DocumentHandler
+
     doc_handler = DocumentHandler()
     doc_handler.open_document(file_path)
     handler = TextHandler(doc_handler.document)
@@ -189,6 +191,7 @@ async def update_paragraph(
         raise DocumentNotFoundError(document_id)
 
     from src.handlers.document_handler import DocumentHandler
+
     doc_handler = DocumentHandler()
     doc_handler.open_document(file_path)
     handler = TextHandler(doc_handler.document)
@@ -235,6 +238,7 @@ async def delete_paragraph(
         raise DocumentNotFoundError(document_id)
 
     from src.handlers.document_handler import DocumentHandler
+
     doc_handler = DocumentHandler()
     doc_handler.open_document(file_path)
     handler = TextHandler(doc_handler.document)
@@ -270,6 +274,7 @@ async def insert_text(
         raise DocumentNotFoundError(document_id)
 
     from src.handlers.document_handler import DocumentHandler
+
     doc_handler = DocumentHandler()
     doc_handler.open_document(file_path)
     handler = TextHandler(doc_handler.document)
@@ -315,6 +320,7 @@ async def find_and_replace(
         raise DocumentNotFoundError(document_id)
 
     from src.handlers.document_handler import DocumentHandler
+
     doc_handler = DocumentHandler()
     doc_handler.open_document(file_path)
     handler = TextHandler(doc_handler.document)
@@ -365,6 +371,7 @@ async def format_text(
         raise DocumentNotFoundError(document_id)
 
     from src.handlers.document_handler import DocumentHandler
+
     doc_handler = DocumentHandler()
     doc_handler.open_document(file_path)
     handler = TextHandler(doc_handler.document)

@@ -84,6 +84,7 @@ async def register(
         )
 
     import uuid
+
     user_id = str(uuid.uuid4())
 
     user = {

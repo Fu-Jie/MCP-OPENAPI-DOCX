@@ -218,13 +218,13 @@ class ConversionUtils:
         units = {
             "B": 1,
             "KB": 1024,
-            "MB": 1024 ** 2,
-            "GB": 1024 ** 3,
-            "TB": 1024 ** 4,
+            "MB": 1024**2,
+            "GB": 1024**3,
+            "TB": 1024**4,
         }
         for unit, multiplier in units.items():
             if size_str.endswith(unit):
-                num = size_str[:-len(unit)].strip()
+                num = size_str[: -len(unit)].strip()
                 return int(float(num) * multiplier)
         return int(size_str)
 

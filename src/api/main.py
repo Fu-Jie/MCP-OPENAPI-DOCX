@@ -59,6 +59,7 @@ async def lifespan(app: FastAPI):
 
     # Create directories if they don't exist
     import os
+
     for dir_path in [settings.upload_dir, settings.export_dir, settings.temp_dir]:
         os.makedirs(dir_path, exist_ok=True)
 
@@ -66,6 +67,7 @@ async def lifespan(app: FastAPI):
 
     # Shutdown
     from src.database.base import dispose_engine
+
     await dispose_engine()
 
 

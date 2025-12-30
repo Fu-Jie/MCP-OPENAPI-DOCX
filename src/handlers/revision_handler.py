@@ -73,9 +73,7 @@ class RevisionHandler:
             ValidationError: If the paragraph index is out of range.
         """
         if paragraph_index < 0 or paragraph_index >= len(self._document.paragraphs):
-            raise ValidationError(
-                f"Paragraph index {paragraph_index} out of range"
-            )
+            raise ValidationError(f"Paragraph index {paragraph_index} out of range")
 
         revision_id = self._next_id
         self._next_id += 1
@@ -130,8 +128,7 @@ class RevisionHandler:
             List of pending revisions.
         """
         return [
-            r for r in self._revisions
-            if not r["is_accepted"] and not r["is_rejected"]
+            r for r in self._revisions if not r["is_accepted"] and not r["is_rejected"]
         ]
 
     def accept_revision(
@@ -336,19 +333,29 @@ class RevisionHandler:
         """
         exported = []
         for revision in self._revisions:
-            exported.append({
-                "id": revision["id"],
-                "action": revision["action"].value if isinstance(revision["action"], RevisionAction) else revision["action"],
-                "author": revision["author"],
-                "paragraph_index": revision["paragraph_index"],
-                "original_content": revision["original_content"],
-                "new_content": revision["new_content"],
-                "is_accepted": revision["is_accepted"],
-                "is_rejected": revision["is_rejected"],
-                "created_at": revision["created_at"].isoformat(),
-                "accepted_at": revision["accepted_at"].isoformat() if revision["accepted_at"] else None,
-                "accepted_by": revision["accepted_by"],
-            })
+            exported.append(
+                {
+                    "id": revision["id"],
+                    "action": (
+                        revision["action"].value
+                        if isinstance(revision["action"], RevisionAction)
+                        else revision["action"]
+                    ),
+                    "author": revision["author"],
+                    "paragraph_index": revision["paragraph_index"],
+                    "original_content": revision["original_content"],
+                    "new_content": revision["new_content"],
+                    "is_accepted": revision["is_accepted"],
+                    "is_rejected": revision["is_rejected"],
+                    "created_at": revision["created_at"].isoformat(),
+                    "accepted_at": (
+                        revision["accepted_at"].isoformat()
+                        if revision["accepted_at"]
+                        else None
+                    ),
+                    "accepted_by": revision["accepted_by"],
+                }
+            )
         return exported
 
     def clear_revision_history(self) -> int:

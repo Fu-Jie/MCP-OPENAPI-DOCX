@@ -125,10 +125,7 @@ async def add_table(
     # Convert data rows to simple list
     table_data = None
     if data.data:
-        table_data = [
-            [cell.text for cell in row.cells]
-            for row in data.data
-        ]
+        table_data = [[cell.text for cell in row.cells] for row in data.data]
 
     index = handler.add_table(
         rows=data.rows,

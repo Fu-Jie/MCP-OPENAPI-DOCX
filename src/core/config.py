@@ -81,9 +81,7 @@ class Settings(BaseSettings):
     reload: bool = Field(default=False)
 
     # Database
-    database_url: str = Field(
-        default="sqlite+aiosqlite:///./docx_db.sqlite"
-    )
+    database_url: str = Field(default="sqlite+aiosqlite:///./docx_db.sqlite")
     database_pool_size: int = Field(default=10, ge=1)
     database_max_overflow: int = Field(default=20, ge=0)
 
@@ -96,9 +94,7 @@ class Settings(BaseSettings):
     celery_result_backend: str = Field(default="redis://localhost:6379/2")
 
     # Authentication
-    secret_key: str = Field(
-        default="your-super-secret-key-change-in-production"
-    )
+    secret_key: str = Field(default="your-super-secret-key-change-in-production")
     access_token_expire_minutes: int = Field(default=30, ge=1)
     refresh_token_expire_days: int = Field(default=7, ge=1)
     algorithm: str = Field(default="HS256")
@@ -141,9 +137,7 @@ class Settings(BaseSettings):
     document_timeout: int = Field(default=300, ge=1)
 
     # Security
-    encryption_key: str = Field(
-        default="your-encryption-key-32-chars-long"
-    )
+    encryption_key: str = Field(default="your-encryption-key-32-chars-long")
     api_key_header: str = Field(default="X-API-Key")
     rate_limit_requests: int = Field(default=100, ge=1)
     rate_limit_window: int = Field(default=60, ge=1)
@@ -162,6 +156,7 @@ class Settings(BaseSettings):
         if isinstance(v, str):
             # Try to parse as JSON list
             import json
+
             try:
                 return json.loads(v)
             except json.JSONDecodeError:

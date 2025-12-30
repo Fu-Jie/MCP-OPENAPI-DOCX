@@ -63,9 +63,7 @@ class CommentHandler:
             This is a simplified implementation.
         """
         if paragraph_index < 0 or paragraph_index >= len(self._document.paragraphs):
-            raise ValidationError(
-                f"Paragraph index {paragraph_index} out of range"
-            )
+            raise ValidationError(f"Paragraph index {paragraph_index} out of range")
 
         comment_id = self._next_id
         self._next_id += 1
@@ -131,14 +129,9 @@ class CommentHandler:
             ValidationError: If the index is out of range.
         """
         if paragraph_index < 0 or paragraph_index >= len(self._document.paragraphs):
-            raise ValidationError(
-                f"Paragraph index {paragraph_index} out of range"
-            )
+            raise ValidationError(f"Paragraph index {paragraph_index} out of range")
 
-        return [
-            c for c in self._comments
-            if c["paragraph_index"] == paragraph_index
-        ]
+        return [c for c in self._comments if c["paragraph_index"] == paragraph_index]
 
     def update_comment(
         self,
@@ -251,10 +244,7 @@ class CommentHandler:
         Returns:
             List of open comments.
         """
-        return [
-            c for c in self._comments
-            if c["status"] == CommentStatus.OPEN
-        ]
+        return [c for c in self._comments if c["status"] == CommentStatus.OPEN]
 
     def get_resolved_comments(self) -> list[dict[str, Any]]:
         """Get all resolved comments.
@@ -262,10 +252,7 @@ class CommentHandler:
         Returns:
             List of resolved comments.
         """
-        return [
-            c for c in self._comments
-            if c["status"] == CommentStatus.RESOLVED
-        ]
+        return [c for c in self._comments if c["status"] == CommentStatus.RESOLVED]
 
     def get_comments_by_author(self, author: str) -> list[dict[str, Any]]:
         """Get all comments by a specific author.
@@ -276,10 +263,7 @@ class CommentHandler:
         Returns:
             List of comments by the author.
         """
-        return [
-            c for c in self._comments
-            if c["author"] == author
-        ]
+        return [c for c in self._comments if c["author"] == author]
 
     def get_comment_count(self) -> dict[str, int]:
         """Get comment statistics.
@@ -314,21 +298,27 @@ class CommentHandler:
         """
         exported = []
         for comment in self._comments:
-            exported.append({
-                "id": comment["id"],
-                "text": comment["text"],
-                "author": comment["author"],
-                "paragraph_index": comment["paragraph_index"],
-                "status": comment["status"].value if isinstance(comment["status"], CommentStatus) else comment["status"],
-                "created_at": comment["created_at"].isoformat(),
-                "replies": [
-                    {
-                        "id": r["id"],
-                        "text": r["text"],
-                        "author": r["author"],
-                        "created_at": r["created_at"].isoformat(),
-                    }
-                    for r in comment.get("replies", [])
-                ],
-            })
+            exported.append(
+                {
+                    "id": comment["id"],
+                    "text": comment["text"],
+                    "author": comment["author"],
+                    "paragraph_index": comment["paragraph_index"],
+                    "status": (
+                        comment["status"].value
+                        if isinstance(comment["status"], CommentStatus)
+                        else comment["status"]
+                    ),
+                    "created_at": comment["created_at"].isoformat(),
+                    "replies": [
+                        {
+                            "id": r["id"],
+                            "text": r["text"],
+                            "author": r["author"],
+                            "created_at": r["created_at"].isoformat(),
+                        }
+                        for r in comment.get("replies", [])
+                    ],
+                }
+            )
         return exported

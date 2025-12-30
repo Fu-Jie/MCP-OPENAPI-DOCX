@@ -238,6 +238,7 @@ class FileUtils:
             MIME type string.
         """
         import mimetypes
+
         mime_type, _ = mimetypes.guess_type(path)
         return mime_type or "application/octet-stream"
 
@@ -252,6 +253,7 @@ class FileUtils:
             Sanitized filename.
         """
         import re
+
         # Remove path separators and dangerous characters
         safe = re.sub(r'[<>:"/\\|?*]', "", filename)
         # Remove leading/trailing spaces and dots

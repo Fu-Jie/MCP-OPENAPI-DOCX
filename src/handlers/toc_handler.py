@@ -62,18 +62,14 @@ class TocHandler:
         run = para.add_run()
 
         # Create TOC field code
-        fld_char_begin = parse_xml(
-            f'<w:fldChar {nsdecls("w")} w:fldCharType="begin"/>'
-        )
+        fld_char_begin = parse_xml(f'<w:fldChar {nsdecls("w")} w:fldCharType="begin"/>')
         instr_text = parse_xml(
             f'<w:instrText {nsdecls("w")} xml:space="preserve"> TOC \\o "1-{max_level}" \\h \\z \\u </w:instrText>'
         )
         fld_char_separate = parse_xml(
             f'<w:fldChar {nsdecls("w")} w:fldCharType="separate"/>'
         )
-        fld_char_end = parse_xml(
-            f'<w:fldChar {nsdecls("w")} w:fldCharType="end"/>'
-        )
+        fld_char_end = parse_xml(f'<w:fldChar {nsdecls("w")} w:fldCharType="end"/>')
 
         run._r.append(fld_char_begin)
         run._r.append(instr_text)
@@ -110,15 +106,14 @@ class TocHandler:
             ValidationError: If the index is out of range.
         """
         if paragraph_index < 0 or paragraph_index >= len(self._document.paragraphs):
-            raise ValidationError(
-                f"Paragraph index {paragraph_index} out of range"
-            )
+            raise ValidationError(f"Paragraph index {paragraph_index} out of range")
 
         para = self._document.paragraphs[paragraph_index]
         p = para._p
 
         # Generate unique ID
         import random
+
         bookmark_id = str(random.randint(1000000, 9999999))
 
         # Create bookmark start element
@@ -214,9 +209,7 @@ class TocHandler:
             ValidationError: If the index is out of range.
         """
         if paragraph_index < 0 or paragraph_index >= len(self._document.paragraphs):
-            raise ValidationError(
-                f"Paragraph index {paragraph_index} out of range"
-            )
+            raise ValidationError(f"Paragraph index {paragraph_index} out of range")
 
         para = self._document.paragraphs[paragraph_index]
 
@@ -231,11 +224,11 @@ class TocHandler:
         # Create hyperlink element
         hyperlink = parse_xml(
             f'<w:hyperlink {nsdecls("w")} r:id="{r_id}" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">'
-            f'<w:r>'
+            f"<w:r>"
             f'<w:rPr><w:rStyle w:val="Hyperlink"/></w:rPr>'
-            f'<w:t>{text}</w:t>'
-            f'</w:r>'
-            f'</w:hyperlink>'
+            f"<w:t>{text}</w:t>"
+            f"</w:r>"
+            f"</w:hyperlink>"
         )
 
         para._p.append(hyperlink)
@@ -266,20 +259,18 @@ class TocHandler:
             ValidationError: If the index is out of range.
         """
         if paragraph_index < 0 or paragraph_index >= len(self._document.paragraphs):
-            raise ValidationError(
-                f"Paragraph index {paragraph_index} out of range"
-            )
+            raise ValidationError(f"Paragraph index {paragraph_index} out of range")
 
         para = self._document.paragraphs[paragraph_index]
 
         # Create internal hyperlink element
         hyperlink = parse_xml(
             f'<w:hyperlink {nsdecls("w")} w:anchor="{bookmark_name}">'
-            f'<w:r>'
+            f"<w:r>"
             f'<w:rPr><w:rStyle w:val="Hyperlink"/></w:rPr>'
-            f'<w:t>{text}</w:t>'
-            f'</w:r>'
-            f'</w:hyperlink>'
+            f"<w:t>{text}</w:t>"
+            f"</w:r>"
+            f"</w:hyperlink>"
         )
 
         para._p.append(hyperlink)
@@ -373,10 +364,12 @@ class TocHandler:
                 except ValueError:
                     level = 1
 
-                headings.append({
-                    "index": i,
-                    "text": para.text,
-                    "level": level,
-                })
+                headings.append(
+                    {
+                        "index": i,
+                        "text": para.text,
+                        "level": level,
+                    }
+                )
 
         return headings

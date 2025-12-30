@@ -204,7 +204,9 @@ class TocService:
         """
         try:
             doc = self.document_handler.load_document(document_path)
-            self.toc_handler.add_internal_link(doc, bookmark_name, text, paragraph_index)
+            self.toc_handler.add_internal_link(
+                doc, bookmark_name, text, paragraph_index
+            )
             self.document_handler.save_document(doc, document_path)
             return {"success": True, "bookmark": bookmark_name, "text": text}
         except Exception as e:

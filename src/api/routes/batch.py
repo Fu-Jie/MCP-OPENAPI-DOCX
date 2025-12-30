@@ -57,12 +57,14 @@ async def execute_batch(
                 doc_handler,
                 text_handler,
             )
-            results.append({
-                "index": i,
-                "operation": operation.operation,
-                "success": True,
-                "result": result,
-            })
+            results.append(
+                {
+                    "index": i,
+                    "operation": operation.operation,
+                    "success": True,
+                    "result": result,
+                }
+            )
         except Exception as e:
             error = {
                 "index": i,
@@ -186,12 +188,16 @@ async def validate_batch(
         if not is_valid:
             all_valid = False
 
-        validation_results.append({
-            "index": i,
-            "operation": operation.operation,
-            "valid": is_valid,
-            "error": None if is_valid else f"Unknown operation: {operation.operation}",
-        })
+        validation_results.append(
+            {
+                "index": i,
+                "operation": operation.operation,
+                "valid": is_valid,
+                "error": (
+                    None if is_valid else f"Unknown operation: {operation.operation}"
+                ),
+            }
+        )
 
     return {
         "valid": all_valid,

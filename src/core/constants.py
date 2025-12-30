@@ -80,7 +80,13 @@ DEFAULT_CELL_WIDTH: Final[float] = 1.5  # inches
 # Image Constants
 # =============================================================================
 SUPPORTED_IMAGE_FORMATS: Final[list[str]] = [
-    ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".tiff", ".webp"
+    ".jpg",
+    ".jpeg",
+    ".png",
+    ".gif",
+    ".bmp",
+    ".tiff",
+    ".webp",
 ]
 MAX_IMAGE_DIMENSION: Final[int] = 10000  # pixels
 DEFAULT_IMAGE_DPI: Final[int] = 96
@@ -90,7 +96,9 @@ DEFAULT_IMAGE_DPI: Final[int] = 96
 # =============================================================================
 API_V1_PREFIX: Final[str] = "/api/v1"
 OPENAPI_TITLE: Final[str] = "MCP-OPENAPI-DOCX API"
-OPENAPI_DESCRIPTION: Final[str] = """
+OPENAPI_DESCRIPTION: Final[
+    str
+] = """
 Enterprise-grade document editing and management server supporting
 MCP (Model Context Protocol) and OpenAPI protocols for DOCX documents.
 

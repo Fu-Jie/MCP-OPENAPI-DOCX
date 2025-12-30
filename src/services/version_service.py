@@ -100,7 +100,9 @@ class VersionService:
             "id": version.id,
             "version_number": version.version_number,
             "created_by": version.created_by,
-            "created_at": version.created_at.isoformat() if version.created_at else None,
+            "created_at": (
+                version.created_at.isoformat() if version.created_at else None
+            ),
             "comment": version.comment,
         }
 
@@ -131,9 +133,7 @@ class VersionService:
             raise DocumentNotFoundError(f"Document {document_id} not found")
 
         # Get next version number
-        current_version = max(
-            (v.version_number for v in document.versions), default=0
-        )
+        current_version = max((v.version_number for v in document.versions), default=0)
         new_version = current_version + 1
 
         # Copy current file to versions

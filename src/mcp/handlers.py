@@ -135,7 +135,9 @@ class MCPHandler:
 
         elif name == "get_character_count":
             include_spaces = arguments.get("include_spaces", True)
-            return {"character_count": self.doc_handler.get_character_count(include_spaces)}
+            return {
+                "character_count": self.doc_handler.get_character_count(include_spaces)
+            }
 
         # Paragraph Tools
         elif name == "get_paragraph":
@@ -228,7 +230,11 @@ class MCPHandler:
             if self._table_handler is None:
                 self._init_handlers()
             tables = self._table_handler.get_all_tables()
-            return {"tables": [{"index": t.index, "rows": t.rows, "cols": t.cols} for t in tables]}
+            return {
+                "tables": [
+                    {"index": t.index, "rows": t.rows, "cols": t.cols} for t in tables
+                ]
+            }
 
         elif name == "add_table":
             if self._table_handler is None:
@@ -323,7 +329,12 @@ class MCPHandler:
             if self._list_handler is None:
                 self._init_handlers()
             from src.core.enums import ListType
-            lt = ListType.BULLET if arguments.get("list_type") == "bullet" else ListType.NUMBERED
+
+            lt = (
+                ListType.BULLET
+                if arguments.get("list_type") == "bullet"
+                else ListType.NUMBERED
+            )
             index = self._list_handler.add_list_item(
                 arguments["text"],
                 lt,
@@ -412,7 +423,12 @@ class MCPHandler:
             if self._toc_handler is None:
                 self._init_handlers()
             bookmarks = self._toc_handler.get_bookmarks()
-            return {"bookmarks": [{"name": b.name, "paragraph_index": b.paragraph_index} for b in bookmarks]}
+            return {
+                "bookmarks": [
+                    {"name": b.name, "paragraph_index": b.paragraph_index}
+                    for b in bookmarks
+                ]
+            }
 
         elif name == "add_hyperlink":
             if self._toc_handler is None:
@@ -499,12 +515,14 @@ class MCPHandler:
 
         elif uri == "docx://current/metadata":
             meta = self.doc_handler.get_metadata()
-            return json.dumps({
-                "author": meta.author,
-                "title": meta.title,
-                "subject": meta.subject,
-                "keywords": meta.keywords,
-            })
+            return json.dumps(
+                {
+                    "author": meta.author,
+                    "title": meta.title,
+                    "subject": meta.subject,
+                    "keywords": meta.keywords,
+                }
+            )
 
         elif uri == "docx://current/paragraphs":
             if self._text_handler is None:
@@ -516,7 +534,9 @@ class MCPHandler:
             if self._table_handler is None:
                 self._init_handlers()
             tables = self._table_handler.get_all_tables()
-            return json.dumps([{"index": t.index, "rows": t.rows, "cols": t.cols} for t in tables])
+            return json.dumps(
+                [{"index": t.index, "rows": t.rows, "cols": t.cols} for t in tables]
+            )
 
         elif uri == "docx://current/styles":
             if self._style_handler is None:
@@ -539,7 +559,12 @@ class MCPHandler:
             if self._toc_handler is None:
                 self._init_handlers()
             bookmarks = self._toc_handler.get_bookmarks()
-            return json.dumps([{"name": b.name, "paragraph_index": b.paragraph_index} for b in bookmarks])
+            return json.dumps(
+                [
+                    {"name": b.name, "paragraph_index": b.paragraph_index}
+                    for b in bookmarks
+                ]
+            )
 
         else:
             return f"Unknown resource: {uri}"

@@ -120,7 +120,9 @@ class TemplateService:
             "description": template.description,
             "category": template.category,
             "tags": template.tags,
-            "created_at": template.created_at.isoformat() if template.created_at else None,
+            "created_at": (
+                template.created_at.isoformat() if template.created_at else None
+            ),
         }
 
     async def list_templates(

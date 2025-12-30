@@ -139,8 +139,7 @@ async def get_bookmarks(document_id: str) -> dict[str, Any]:
         "document_id": document_id,
         "count": len(bookmarks),
         "bookmarks": [
-            {"name": b.name, "paragraph_index": b.paragraph_index}
-            for b in bookmarks
+            {"name": b.name, "paragraph_index": b.paragraph_index} for b in bookmarks
         ],
     }
 

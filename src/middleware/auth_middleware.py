@@ -49,7 +49,9 @@ class AuthMiddleware(BaseHTTPMiddleware):
             return await call_next(request)
 
         # Also skip for paths starting with certain prefixes
-        if request.url.path.startswith("/docs") or request.url.path.startswith("/redoc"):
+        if request.url.path.startswith("/docs") or request.url.path.startswith(
+            "/redoc"
+        ):
             return await call_next(request)
 
         # Extract token from Authorization header

@@ -118,9 +118,7 @@ class PermissionDeniedError(BaseDocxException):
             required_permission: The permission that was required.
         """
         details = (
-            {"required_permission": required_permission}
-            if required_permission
-            else {}
+            {"required_permission": required_permission} if required_permission else {}
         )
         super().__init__(
             message=message,

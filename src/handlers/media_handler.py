@@ -89,9 +89,7 @@ class MediaHandler:
         # Insert image
         if paragraph_index is not None:
             if paragraph_index < 0 or paragraph_index >= len(self._document.paragraphs):
-                raise ValidationError(
-                    f"Paragraph index {paragraph_index} out of range"
-                )
+                raise ValidationError(f"Paragraph index {paragraph_index} out of range")
             para = self._document.paragraphs[paragraph_index]
             run = para.add_run()
             run.add_picture(str(path), **size_kwargs)
@@ -155,9 +153,7 @@ class MediaHandler:
 
         if paragraph_index is not None:
             if paragraph_index < 0 or paragraph_index >= len(self._document.paragraphs):
-                raise ValidationError(
-                    f"Paragraph index {paragraph_index} out of range"
-                )
+                raise ValidationError(f"Paragraph index {paragraph_index} out of range")
             para = self._document.paragraphs[paragraph_index]
             run = para.add_run()
             run.add_picture(image_stream, **size_kwargs)
@@ -189,9 +185,7 @@ class MediaHandler:
             ValidationError: If the index is out of range.
         """
         if index < 0 or index >= len(self._document.inline_shapes):
-            raise ValidationError(
-                f"Image index {index} out of range"
-            )
+            raise ValidationError(f"Image index {index} out of range")
 
         shape = self._document.inline_shapes[index]
 
@@ -224,9 +218,7 @@ class MediaHandler:
             ValidationError: If the index is out of range.
         """
         if index < 0 or index >= len(self._document.inline_shapes):
-            raise ValidationError(
-                f"Image index {index} out of range"
-            )
+            raise ValidationError(f"Image index {index} out of range")
 
         shape = self._document.inline_shapes[index]
 
@@ -245,9 +237,7 @@ class MediaHandler:
             ValidationError: If the index is out of range.
         """
         if index < 0 or index >= len(self._document.inline_shapes):
-            raise ValidationError(
-                f"Image index {index} out of range"
-            )
+            raise ValidationError(f"Image index {index} out of range")
 
         shape = self._document.inline_shapes[index]
         # Remove the inline shape element from its parent
@@ -316,7 +306,5 @@ class MediaHandler:
         # We'll add a paragraph with the text instead
         if paragraph_index is not None:
             if paragraph_index < 0 or paragraph_index >= len(self._document.paragraphs):
-                raise ValidationError(
-                    f"Paragraph index {paragraph_index} out of range"
-                )
+                raise ValidationError(f"Paragraph index {paragraph_index} out of range")
         self._document.add_paragraph(text)

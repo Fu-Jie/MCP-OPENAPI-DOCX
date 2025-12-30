@@ -105,6 +105,7 @@ def log_function_call(logger: structlog.BoundLogger):
     Returns:
         Decorator function.
     """
+
     def decorator(func):
         async def async_wrapper(*args, **kwargs):
             logger.info(
@@ -151,6 +152,7 @@ def log_function_call(logger: structlog.BoundLogger):
                 raise
 
         import asyncio
+
         if asyncio.iscoroutinefunction(func):
             return async_wrapper
         return sync_wrapper

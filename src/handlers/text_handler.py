@@ -70,7 +70,11 @@ class TextHandler:
                     underline=run.underline or False,
                     font_name=run.font.name,
                     font_size=int(run.font.size.pt) if run.font.size else None,
-                    color=self._get_color_hex(run.font.color.rgb) if run.font.color.rgb else None,
+                    color=(
+                        self._get_color_hex(run.font.color.rgb)
+                        if run.font.color.rgb
+                        else None
+                    ),
                 )
             )
 
@@ -95,10 +99,7 @@ class TextHandler:
         Returns:
             List of paragraph DTOs.
         """
-        return [
-            self.get_paragraph(i)
-            for i in range(len(self._document.paragraphs))
-        ]
+        return [self.get_paragraph(i) for i in range(len(self._document.paragraphs))]
 
     def add_paragraph(
         self,
@@ -317,9 +318,7 @@ class TextHandler:
         para_text = para.text
 
         if offset < 0 or offset > len(para_text):
-            raise ValidationError(
-                f"Offset {offset} out of range (0-{len(para_text)})"
-            )
+            raise ValidationError(f"Offset {offset} out of range (0-{len(para_text)})")
 
         # Clear and rebuild with inserted text
         new_text = para_text[:offset] + text + para_text[offset:]
@@ -367,12 +366,14 @@ class TextHandler:
                         start = pos + 1
                         continue
 
-                results.append({
-                    "paragraph_index": i,
-                    "offset": pos,
-                    "length": len(search_text),
-                    "text": para.text[pos:pos + len(search_text)],
-                })
+                results.append(
+                    {
+                        "paragraph_index": i,
+                        "offset": pos,
+                        "length": len(search_text),
+                        "text": para.text[pos : pos + len(search_text)],
+                    }
+                )
                 start = pos + 1
 
         return results
@@ -409,6 +410,7 @@ class TextHandler:
                     if lower_find in lower_text:
                         # Case-insensitive replacement
                         import re
+
                         pattern = re.escape(find)
                         if whole_word:
                             pattern = r"\b" + pattern + r"\b"

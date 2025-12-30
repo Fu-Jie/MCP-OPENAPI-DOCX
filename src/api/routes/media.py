@@ -50,11 +50,13 @@ async def get_images(document_id: str) -> dict[str, Any]:
     images = []
     for i in range(count):
         img = handler.get_image_info(i)
-        images.append({
-            "index": img.index,
-            "width": img.width,
-            "height": img.height,
-        })
+        images.append(
+            {
+                "index": img.index,
+                "width": img.width,
+                "height": img.height,
+            }
+        )
 
     return {
         "document_id": document_id,

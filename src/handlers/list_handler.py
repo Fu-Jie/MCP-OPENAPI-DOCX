@@ -4,7 +4,6 @@ This module provides functionality for creating and managing
 bullet lists, numbered lists, and multi-level lists.
 """
 
-
 from docx import Document
 
 from src.core.enums import ListType, NumberingFormat
@@ -166,9 +165,7 @@ class ListHandler:
             ValidationError: If the index is out of range.
         """
         if paragraph_index < 0 or paragraph_index >= len(self._document.paragraphs):
-            raise ValidationError(
-                f"Paragraph index {paragraph_index} out of range"
-            )
+            raise ValidationError(f"Paragraph index {paragraph_index} out of range")
 
         para = self._document.paragraphs[paragraph_index]
         if list_type == ListType.BULLET:
@@ -186,9 +183,7 @@ class ListHandler:
             ValidationError: If the index is out of range.
         """
         if paragraph_index < 0 or paragraph_index >= len(self._document.paragraphs):
-            raise ValidationError(
-                f"Paragraph index {paragraph_index} out of range"
-            )
+            raise ValidationError(f"Paragraph index {paragraph_index} out of range")
 
         para = self._document.paragraphs[paragraph_index]
         para.style = "Normal"
@@ -211,9 +206,7 @@ class ListHandler:
             ValidationError: If indices are out of range.
         """
         if start_index < 0 or start_index >= len(self._document.paragraphs):
-            raise ValidationError(
-                f"Start index {start_index} out of range"
-            )
+            raise ValidationError(f"Start index {start_index} out of range")
 
         if end_index is None:
             end_index = len(self._document.paragraphs)
@@ -267,9 +260,7 @@ class ListHandler:
             ValidationError: If the index is out of range.
         """
         if paragraph_index < 0 or paragraph_index >= len(self._document.paragraphs):
-            raise ValidationError(
-                f"Paragraph index {paragraph_index} out of range"
-            )
+            raise ValidationError(f"Paragraph index {paragraph_index} out of range")
 
         para = self._document.paragraphs[paragraph_index]
         current_style = para.style.name if para.style else ""
@@ -296,9 +287,7 @@ class ListHandler:
             ValidationError: If the index is out of range.
         """
         if paragraph_index < 0 or paragraph_index >= len(self._document.paragraphs):
-            raise ValidationError(
-                f"Paragraph index {paragraph_index} out of range"
-            )
+            raise ValidationError(f"Paragraph index {paragraph_index} out of range")
 
         para = self._document.paragraphs[paragraph_index]
         style_name = para.style.name if para.style else ""
@@ -324,9 +313,7 @@ class ListHandler:
             ValidationError: If the index is out of range.
         """
         if paragraph_index < 0 or paragraph_index >= len(self._document.paragraphs):
-            raise ValidationError(
-                f"Paragraph index {paragraph_index} out of range"
-            )
+            raise ValidationError(f"Paragraph index {paragraph_index} out of range")
 
         para = self._document.paragraphs[paragraph_index]
         style_name = para.style.name if para.style else ""

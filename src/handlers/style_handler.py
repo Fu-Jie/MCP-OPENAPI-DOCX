@@ -272,9 +272,7 @@ class StyleHandler:
             ValidationError: If the index or style is invalid.
         """
         if paragraph_index < 0 or paragraph_index >= len(self._document.paragraphs):
-            raise ValidationError(
-                f"Paragraph index {paragraph_index} out of range"
-            )
+            raise ValidationError(f"Paragraph index {paragraph_index} out of range")
 
         try:
             self._document.styles[style_name]
@@ -297,9 +295,7 @@ class StyleHandler:
             ValidationError: If the index is out of range.
         """
         if paragraph_index < 0 or paragraph_index >= len(self._document.paragraphs):
-            raise ValidationError(
-                f"Paragraph index {paragraph_index} out of range"
-            )
+            raise ValidationError(f"Paragraph index {paragraph_index} out of range")
 
         para = self._document.paragraphs[paragraph_index]
         return para.style.name if para.style else None

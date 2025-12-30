@@ -145,7 +145,7 @@ def send_webhook_notification(
 
         # Retry on server errors
         if e.response.status_code >= 500 and self.request.retries < retries:
-            self.retry(countdown=2 ** self.request.retries)
+            self.retry(countdown=2**self.request.retries)
 
         return {
             "success": False,
@@ -162,7 +162,7 @@ def send_webhook_notification(
 
         # Retry on network errors
         if self.request.retries < retries:
-            self.retry(countdown=2 ** self.request.retries)
+            self.retry(countdown=2**self.request.retries)
 
         return {
             "success": False,

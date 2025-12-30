@@ -131,6 +131,7 @@ def require_roles(*roles: UserRole):
     Returns:
         Dependency function.
     """
+
     async def role_checker(
         current_user: UserDTO = Depends(get_current_user),
     ) -> UserDTO:
