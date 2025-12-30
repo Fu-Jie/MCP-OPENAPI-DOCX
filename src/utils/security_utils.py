@@ -9,6 +9,34 @@ import hashlib
 import hmac
 import secrets
 
+# Monkey-patch bcrypt to handle 72-byte limit before passlib loads
+# This ensures compatibility with bcrypt>=4.0.0 which enforces the limit strictly
+try:
+    import bcrypt as _bcrypt
+    _original_hashpw = _bcrypt.hashpw
+    _original_checkpw = _bcrypt.checkpw
+    
+    def _truncate_password(password):
+        """Truncate password to 72 bytes for bcrypt."""
+        if isinstance(password, str):
+            password = password.encode('utf-8')
+        if len(password) > 72:
+            password = password[:72]
+        return password
+    
+    def _patched_hashpw(password, salt):
+        """Patched hashpw that truncates passwords to 72 bytes."""
+        return _original_hashpw(_truncate_password(password), salt)
+    
+    def _patched_checkpw(password, hashed_password):
+        """Patched checkpw that truncates passwords to 72 bytes."""
+        return _original_checkpw(_truncate_password(password), hashed_password)
+    
+    _bcrypt.hashpw = _patched_hashpw
+    _bcrypt.checkpw = _patched_checkpw
+except ImportError:
+    pass  # bcrypt not installed
+
 from passlib.context import CryptContext
 
 # Password hashing context
@@ -30,7 +58,15 @@ class SecurityUtils:
 
         Returns:
             Hashed password.
+        
+        Note:
+            Bcrypt has a 72-byte limit. Passwords are automatically
+            truncated to this length.
         """
+        # Bcrypt limitation: passwords cannot exceed 72 bytes
+        password_bytes = password.encode('utf-8')
+        if len(password_bytes) > 72:
+            password = password_bytes[:72].decode('utf-8', errors='ignore')
         return pwd_context.hash(password)
 
     @staticmethod
@@ -44,6 +80,10 @@ class SecurityUtils:
         Returns:
             True if password matches.
         """
+        # Apply same truncation as in hash_password for consistency
+        password_bytes = plain.encode('utf-8')
+        if len(password_bytes) > 72:
+            plain = password_bytes[:72].decode('utf-8', errors='ignore')
         return pwd_context.verify(plain, hashed)
 
     @staticmethod
