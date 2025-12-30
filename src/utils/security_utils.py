@@ -38,9 +38,9 @@ try:
             while truncated and (truncated[-1] & 0xC0) == 0x80:
                 truncated = truncated[:-1]
                 
-            # If the last byte is a multi-byte character start, remove it too
+            # If the last byte is a multi-byte character start (>= 0xC0), remove it too
             # since we don't have all its continuation bytes
-            if truncated and (truncated[-1] & 0x80) != 0:
+            if truncated and truncated[-1] >= 0xC0:
                 truncated = truncated[:-1]
                 
             return truncated
@@ -100,9 +100,9 @@ class SecurityUtils:
         while truncated and (truncated[-1] & 0xC0) == 0x80:
             truncated = truncated[:-1]
             
-        # If the last byte is a multi-byte character start, remove it too
+        # If the last byte is a multi-byte character start (>= 0xC0), remove it too
         # since we don't have all its continuation bytes
-        if truncated and (truncated[-1] & 0x80) != 0:
+        if truncated and truncated[-1] >= 0xC0:
             truncated = truncated[:-1]
             
         return truncated.decode('utf-8')
