@@ -1,11 +1,14 @@
-[tool.poetry]
+# Project metadata (for reference only, dependencies managed via requirements.txt)
+[project]
 name = "mcp-openapi-docx"
 version = "1.0.0"
 description = "Enterprise-grade document editing and management server supporting MCP and OpenAPI protocols for DOCX documents"
-authors = ["Jeff <jeff@example.com>"]
-license = "MIT"
 readme = "README.md"
-repository = "https://github.com/Fu-Jie/MCP-OPENAPI-DOCX"
+license = {text = "MIT"}
+requires-python = ">=3.10"
+authors = [
+    {name = "Jeff", email = "jeff@example.com"}
+]
 keywords = ["mcp", "openapi", "docx", "document", "editing", "fastapi"]
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -20,57 +23,11 @@ classifiers = [
     "Topic :: Office/Business :: Office Suites",
     "Topic :: Text Processing :: Markup",
 ]
-packages = [{include = "src"}]
 
-[tool.poetry.dependencies]
-python = "^3.10"
-fastapi = "^0.115.0"
-uvicorn = {extras = ["standard"], version = "^0.32.0"}
-python-docx = "^1.1.2"
-pydantic = "^2.10.0"
-pydantic-settings = "^2.6.0"
-sqlalchemy = {extras = ["asyncio"], version = "^2.0.36"}
-alembic = "^1.14.0"
-aiosqlite = "^0.20.0"
-asyncpg = "^0.30.0"
-python-multipart = "^0.0.18"
-python-jose = {extras = ["cryptography"], version = "^3.3.0"}
-passlib = {extras = ["bcrypt"], version = "^1.7.4"}
-celery = {extras = ["redis"], version = "^5.4.0"}
-redis = "^5.2.0"
-pillow = "^11.0.0"
-python-magic = "^0.4.27"
-aiofiles = "^24.1.0"
-httpx = "^0.28.0"
-mcp = "^1.0.0"
-structlog = "^24.4.0"
-prometheus-client = "^0.21.0"
-sentry-sdk = "^2.19.0"
-tenacity = "^9.0.0"
-email-validator = "^2.2.0"
+[project.urls]
+Repository = "https://github.com/Fu-Jie/MCP-OPENAPI-DOCX"
 
-[tool.poetry.group.dev.dependencies]
-pytest = "^8.3.0"
-pytest-asyncio = "^0.24.0"
-pytest-cov = "^6.0.0"
-pytest-mock = "^3.14.0"
-httpx = "^0.28.0"
-factory-boy = "^3.3.1"
-faker = "^33.0.0"
-black = "^24.10.0"
-isort = "^5.13.2"
-flake8 = "^7.1.1"
-mypy = "^1.13.0"
-pre-commit = "^4.0.0"
-ruff = "^0.8.0"
-
-[tool.poetry.scripts]
-docx-server = "src.api.main:run"
-mcp-server = "src.mcp.server:main"
-
-[build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+# Tool configurations
 
 [tool.black]
 line-length = 88

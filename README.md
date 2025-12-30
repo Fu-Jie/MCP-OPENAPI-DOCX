@@ -3,6 +3,7 @@
 Enterprise-grade document editing and management server supporting MCP (Model Context Protocol) and OpenAPI protocols for DOCX documents.
 
 [![CI/CD Pipeline](https://github.com/Fu-Jie/MCP-OPENAPI-DOCX/actions/workflows/ci.yml/badge.svg)](https://github.com/Fu-Jie/MCP-OPENAPI-DOCX/actions/workflows/ci.yml)
+[![Deploy](https://github.com/Fu-Jie/MCP-OPENAPI-DOCX/actions/workflows/deploy.yml/badge.svg)](https://github.com/Fu-Jie/MCP-OPENAPI-DOCX/actions/workflows/deploy.yml)
 [![Python Version](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
@@ -43,22 +44,7 @@ Enterprise-grade document editing and management server supporting MCP (Model Co
 - PostgreSQL (optional, SQLite available for development)
 - Redis (for Celery tasks)
 
-### Using Poetry
-
-```bash
-# Clone the repository
-git clone https://github.com/Fu-Jie/MCP-OPENAPI-DOCX.git
-cd MCP-OPENAPI-DOCX
-
-# Install dependencies
-pip install poetry
-poetry install
-
-# Run the application
-poetry run docx-server
-```
-
-### Using pip
+### Using pip and venv (Recommended)
 
 ```bash
 # Clone the repository
@@ -67,13 +53,26 @@ cd MCP-OPENAPI-DOCX
 
 # Create virtual environment
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+
+# Activate virtual environment
+# On Linux/macOS:
+source venv/bin/activate
+# On Windows (Command Prompt):
+venv\Scripts\activate.bat
+# On Windows (PowerShell):
+venv\Scripts\Activate.ps1
+
+# Upgrade pip
+pip install --upgrade pip
 
 # Install dependencies
 pip install -r requirements.txt
 
+# Copy environment configuration
+cp .env.example .env
+
 # Run the application
-python -m uvicorn src.api.main:app --reload
+python main.py
 ```
 
 ### Using Docker
@@ -95,10 +94,13 @@ docker-compose logs -f api
 ### Start the API Server
 
 ```bash
-# Development mode
+# Method 1: Using main.py (Recommended)
+python main.py
+
+# Method 2: Using uvicorn directly
 python -m uvicorn src.api.main:app --reload --port 8000
 
-# Production mode
+# Production mode with multiple workers
 python -m uvicorn src.api.main:app --host 0.0.0.0 --port 8000 --workers 4
 ```
 
@@ -112,7 +114,7 @@ python -m uvicorn src.api.main:app --host 0.0.0.0 --port 8000 --workers 4
 
 ```bash
 # Run MCP server (for AI integrations)
-poetry run mcp-server
+python main.py --mcp
 ```
 
 ## 📖 API Documentation
@@ -228,19 +230,24 @@ mcp-openapi-docx/
 ### Running Locally
 
 ```bash
+# Activate virtual environment
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+
 # Install dev dependencies
-poetry install --with dev
+pip install -r requirements.txt
 
 # Run linting
-poetry run ruff check src/
-poetry run black --check src/
-poetry run isort --check-only src/
+ruff check src/
+black --check src/
+isort --check-only src/
 
 # Run type checking
-poetry run mypy src/
+mypy src/
 
 # Start development server
-poetry run uvicorn src.api.main:app --reload
+python main.py
+# Or with auto-reload:
+python -m uvicorn src.api.main:app --reload
 ```
 
 ### Database Migrations
