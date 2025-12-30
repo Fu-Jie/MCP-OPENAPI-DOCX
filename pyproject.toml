@@ -53,13 +53,14 @@ exclude = '''
 profile = "black"
 line_length = 88
 skip = [".git", ".venv", "alembic"]
+known_first_party = ["src"]
 
 [tool.ruff]
 line-length = 88
 target-version = "py310"
 
 [tool.ruff.lint]
-select = ["E", "F", "W", "I", "N", "UP", "B", "C4", "SIM"]
+select = ["E", "F", "W", "N", "UP", "B", "C4", "SIM"]
 ignore = [
     "E501",    # Line too long (handled by formatter)
     "B008",    # Do not perform function call in argument defaults (FastAPI pattern)
