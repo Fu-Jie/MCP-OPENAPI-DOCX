@@ -6,11 +6,12 @@ documents to various formats.
 
 import os
 from typing import Any
+
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.handlers.document_handler import DocumentHandler
 from src.core.config import get_settings
 from src.core.exceptions import DocumentProcessingError
+from src.handlers.document_handler import DocumentHandler
 
 
 class ExportService:

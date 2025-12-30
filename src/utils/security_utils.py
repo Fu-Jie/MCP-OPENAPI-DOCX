@@ -4,14 +4,12 @@ This module provides security utilities for encryption,
 password handling, and token generation.
 """
 
-import secrets
+import base64
 import hashlib
 import hmac
-import base64
-from typing import Any
+import secrets
 
 from passlib.context import CryptContext
-
 
 # Password hashing context
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")

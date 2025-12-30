@@ -9,11 +9,10 @@ from typing import Any
 from fastapi import APIRouter
 
 from src.core.config import get_settings
-from src.core.enums import RevisionAction
 from src.core.exceptions import DocumentNotFoundError
 from src.handlers.document_handler import DocumentHandler
 from src.handlers.revision_handler import RevisionHandler
-from src.models.schemas import RevisionCreate, RevisionAccept
+from src.models.schemas import RevisionCreate
 
 router = APIRouter(prefix="/documents/{document_id}/revisions")
 

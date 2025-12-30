@@ -60,7 +60,13 @@ target-version = "py310"
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "N", "UP", "B", "C4", "SIM"]
-ignore = ["E501"]
+ignore = [
+    "E501",    # Line too long (handled by formatter)
+    "B008",    # Do not perform function call in argument defaults (FastAPI pattern)
+    "B904",    # Within except clause, raise with from (too verbose for this project)
+    "SIM102",  # Use single if statement instead of nested (sometimes nested is clearer)
+    "N818",    # Exception name should be named with Error suffix
+]
 
 [tool.mypy]
 python_version = "3.10"

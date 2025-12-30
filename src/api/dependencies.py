@@ -5,9 +5,9 @@ including database sessions, current user, and document handlers.
 """
 
 from collections.abc import AsyncGenerator
-from typing import Annotated, Any
+from typing import Annotated
 
-from fastapi import Depends, Header, HTTPException, status
+from fastapi import Depends, Header
 from jose import JWTError, jwt
 from sqlalchemy.ext.asyncio import AsyncSession
 

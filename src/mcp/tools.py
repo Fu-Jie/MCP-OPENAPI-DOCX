@@ -4,7 +4,6 @@ This module defines all MCP tools for document operations.
 Following MCP protocol specifications.
 """
 
-from typing import Any
 
 from mcp.types import Tool
 

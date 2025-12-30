@@ -91,7 +91,7 @@ DEFAULT_IMAGE_DPI: Final[int] = 96
 API_V1_PREFIX: Final[str] = "/api/v1"
 OPENAPI_TITLE: Final[str] = "MCP-OPENAPI-DOCX API"
 OPENAPI_DESCRIPTION: Final[str] = """
-Enterprise-grade document editing and management server supporting 
+Enterprise-grade document editing and management server supporting
 MCP (Model Context Protocol) and OpenAPI protocols for DOCX documents.
 
 ## Features

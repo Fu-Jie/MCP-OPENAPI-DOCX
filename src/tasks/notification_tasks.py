@@ -4,8 +4,9 @@ This module contains background tasks for sending
 notifications via email and webhooks.
 """
 
-import httpx
 from typing import Any
+
+import httpx
 
 from src.tasks.celery_app import celery_app
 from src.utils.logging_utils import get_logger
@@ -196,12 +197,6 @@ def notify_document_event(
 
     try:
         # Build event payload
-        payload = {
-            "event_type": event_type,
-            "document_id": document_id,
-            "user_id": user_id,
-            "data": data or {},
-        }
 
         # In production, this would:
         # 1. Look up subscribed webhooks for this document/user

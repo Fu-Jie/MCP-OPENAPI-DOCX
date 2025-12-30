@@ -4,11 +4,8 @@ This module provides functionality for creating and managing
 bullet lists, numbered lists, and multi-level lists.
 """
 
-from typing import Any
 
 from docx import Document
-from docx.oxml import parse_xml
-from docx.oxml.ns import nsdecls, qn
 
 from src.core.enums import ListType, NumberingFormat
 from src.core.exceptions import ValidationError
@@ -55,8 +52,8 @@ class ListHandler:
             else len(self._document.paragraphs)
         )
 
-        for i, item in enumerate(items):
-            para = self._document.add_paragraph(item, style="List Bullet")
+        for _i, item in enumerate(items):
+            self._document.add_paragraph(item, style="List Bullet")
 
         return start_index
 
@@ -83,7 +80,7 @@ class ListHandler:
         )
 
         for item in items:
-            para = self._document.add_paragraph(item, style="List Number")
+            self._document.add_paragraph(item, style="List Number")
 
         return start_index
 
@@ -115,7 +112,7 @@ class ListHandler:
             else:
                 style = "List Bullet 3"
 
-            para = self._document.add_paragraph(text, style=style)
+            self._document.add_paragraph(text, style=style)
 
         return start_index
 

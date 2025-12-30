@@ -5,11 +5,12 @@ page settings, sections, and headers/footers.
 """
 
 from typing import Any
+
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from src.core.exceptions import DocumentProcessingError
 from src.handlers.document_handler import DocumentHandler
 from src.handlers.layout_handler import LayoutHandler
-from src.core.exceptions import DocumentProcessingError
 
 
 class LayoutService:

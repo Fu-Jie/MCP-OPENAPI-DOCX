@@ -4,12 +4,12 @@ This module provides caching utilities for improving
 performance of document operations.
 """
 
-import json
 import hashlib
-import asyncio
-from typing import Any, Callable, TypeVar
-from functools import wraps
+import json
+from collections.abc import Callable
 from datetime import datetime, timedelta
+from functools import wraps
+from typing import Any, TypeVar
 
 T = TypeVar("T")
 

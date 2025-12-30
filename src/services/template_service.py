@@ -5,17 +5,18 @@ document templates.
 """
 
 import os
-import uuid
 import shutil
-from typing import Any
+import uuid
 from datetime import datetime
-from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, delete
+from typing import Any
 
-from src.handlers.document_handler import DocumentHandler
-from src.models.database import Template
+from sqlalchemy import delete, select
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from src.core.config import get_settings
 from src.core.exceptions import DocumentProcessingError, TemplateNotFoundError
+from src.handlers.document_handler import DocumentHandler
+from src.models.database import Template
 
 
 class TemplateService:

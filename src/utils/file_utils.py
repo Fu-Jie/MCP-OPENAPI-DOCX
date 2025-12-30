@@ -4,12 +4,11 @@ This module provides utility functions for file operations
 including reading, writing, and file management.
 """
 
+import hashlib
 import os
 import shutil
-import hashlib
 import tempfile
 from pathlib import Path
-from typing import Any, BinaryIO
 
 
 class FileUtils:
@@ -139,7 +138,7 @@ class FileUtils:
         Returns:
             File content as string.
         """
-        with open(path, "r", encoding=encoding) as f:
+        with open(path, encoding=encoding) as f:
             return f.read()
 
     @staticmethod

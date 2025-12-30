@@ -5,11 +5,12 @@ document styles and formatting.
 """
 
 from typing import Any
+
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from src.core.exceptions import DocumentProcessingError
 from src.handlers.document_handler import DocumentHandler
 from src.handlers.style_handler import StyleHandler
-from src.core.exceptions import DocumentProcessingError
 
 
 class StyleService:

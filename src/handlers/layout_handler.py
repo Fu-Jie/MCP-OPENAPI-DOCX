@@ -4,18 +4,12 @@ This module provides functionality for managing page layout settings
 including margins, page size, headers, footers, and sections.
 """
 
-from typing import Any
 
 from docx import Document
 from docx.enum.section import WD_ORIENT, WD_SECTION
-from docx.section import Section
-from docx.shared import Inches, Pt
+from docx.shared import Inches
 
 from src.core.constants import (
-    DEFAULT_MARGIN_BOTTOM,
-    DEFAULT_MARGIN_LEFT,
-    DEFAULT_MARGIN_RIGHT,
-    DEFAULT_MARGIN_TOP,
     PAGE_SIZE_A4,
     PAGE_SIZE_LEGAL,
     PAGE_SIZE_LETTER,
@@ -211,7 +205,7 @@ class LayoutHandler:
             Index of the new section.
         """
         # Add a paragraph to create a new section
-        para = self._document.add_paragraph()
+        self._document.add_paragraph()
 
         # Get the new section and set its start type
         section = self._document.sections[-1]
@@ -379,7 +373,7 @@ class LayoutHandler:
 
         # This would require more complex XML manipulation
         # Placeholder implementation
-        text = f"Page {{PAGE}}"
+        text = "Page {PAGE}"
         if position == "header":
             self.set_header(text, section_index)
         else:

@@ -3,7 +3,6 @@
 This module defines MCP resources for document access.
 """
 
-from typing import Any
 
 from mcp.types import Resource
 

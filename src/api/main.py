@@ -4,7 +4,6 @@ This module creates and configures the FastAPI application instance
 with all middleware, routes, and error handlers.
 """
 
-import asyncio
 import time
 from contextlib import asynccontextmanager
 from typing import Any
@@ -14,6 +13,26 @@ from fastapi import FastAPI, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
+# Import routes
+from src.api.routes import (
+    batch,
+    comments,
+    documents,
+    export,
+    health,
+    layout,
+    lists,
+    media,
+    metadata,
+    revisions,
+    search,
+    security,
+    styles,
+    tables,
+    templates,
+    text,
+    toc,
+)
 from src.core.config import get_settings
 from src.core.constants import (
     API_V1_PREFIX,
@@ -22,27 +41,6 @@ from src.core.constants import (
     OPENAPI_VERSION,
 )
 from src.core.exceptions import BaseDocxException
-
-# Import routes
-from src.api.routes import (
-    documents,
-    text,
-    tables,
-    lists,
-    media,
-    styles,
-    layout,
-    toc,
-    comments,
-    revisions,
-    search,
-    export,
-    templates,
-    security,
-    metadata,
-    batch,
-    health,
-)
 
 
 @asynccontextmanager

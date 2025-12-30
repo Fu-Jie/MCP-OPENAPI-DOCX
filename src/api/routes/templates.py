@@ -12,7 +12,7 @@ from fastapi import APIRouter, File, UploadFile
 from src.core.config import get_settings
 from src.core.exceptions import DocumentNotFoundError, InvalidDocumentError
 from src.handlers.document_handler import DocumentHandler
-from src.models.schemas import TemplateCreate, TemplateUpdate, TemplateResponse
+from src.models.schemas import TemplateCreate, TemplateUpdate
 
 router = APIRouter(prefix="/templates")
 
@@ -213,9 +213,8 @@ async def create_from_template(
     doc_id = str(uuid.uuid4())
     doc_path = os.path.join(settings.upload_dir, f"{doc_id}.docx")
 
-    with open(template["file_path"], "rb") as src:
-        with open(doc_path, "wb") as dst:
-            dst.write(src.read())
+    with open(template["file_path"], "rb") as src, open(doc_path, "wb") as dst:
+        dst.write(src.read())
 
     # Update document metadata
     handler = DocumentHandler()

@@ -3,6 +3,7 @@
 This module provides endpoints for list operations.
 """
 
+import contextlib
 import os
 from typing import Any
 
@@ -13,7 +14,6 @@ from src.core.enums import ListType, NumberingFormat
 from src.core.exceptions import DocumentNotFoundError
 from src.handlers.document_handler import DocumentHandler
 from src.handlers.list_handler import ListHandler
-from src.models.schemas import ListCreate, ListItemCreate
 
 router = APIRouter(prefix="/documents/{document_id}/lists")
 
@@ -83,10 +83,8 @@ async def create_numbered_list(
     doc_handler, handler = get_list_handler(document_id)
 
     fmt = NumberingFormat.DECIMAL
-    try:
+    with contextlib.suppress(ValueError):
         fmt = NumberingFormat(numbering_format)
-    except ValueError:
-        pass
 
     start_index = handler.create_numbered_list(items, fmt)
     doc_handler.save_document()

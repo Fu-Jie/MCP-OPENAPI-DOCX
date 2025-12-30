@@ -4,10 +4,10 @@ This module provides logging utilities for structured
 logging throughout the application.
 """
 
-import sys
 import logging
-from typing import Any
+import sys
 from pathlib import Path
+from typing import Any
 
 import structlog
 

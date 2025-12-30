@@ -5,11 +5,12 @@ and replacing text in documents.
 """
 
 from typing import Any
+
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from src.core.exceptions import DocumentProcessingError
 from src.handlers.document_handler import DocumentHandler
 from src.handlers.text_handler import TextHandler
-from src.core.exceptions import DocumentProcessingError
 
 
 class SearchService:

@@ -4,7 +4,6 @@ This module provides endpoints for batch document operations.
 """
 
 import os
-import uuid
 from typing import Any
 
 from fastapi import APIRouter

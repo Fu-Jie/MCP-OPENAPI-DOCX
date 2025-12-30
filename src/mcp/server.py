@@ -9,21 +9,18 @@ import asyncio
 import logging
 from typing import Any
 
-from mcp.server import Server
 from mcp.server.stdio import stdio_server
 from mcp.types import (
     Resource,
-    ResourceTemplate,
-    Tool,
     TextContent,
-    ImageContent,
-    EmbeddedResource,
+    Tool,
 )
 
+from mcp.server import Server
 from src.core.config import get_settings
-from src.mcp.tools import register_tools
-from src.mcp.resources import register_resources
 from src.mcp.handlers import MCPHandler
+from src.mcp.resources import register_resources
+from src.mcp.tools import register_tools
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)

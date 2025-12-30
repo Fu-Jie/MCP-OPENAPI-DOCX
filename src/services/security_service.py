@@ -7,11 +7,12 @@ document encryption, passwords, and permissions.
 import hashlib
 import secrets
 from typing import Any
+
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.handlers.document_handler import DocumentHandler
 from src.core.config import get_settings
 from src.core.exceptions import DocumentProcessingError
+from src.handlers.document_handler import DocumentHandler
 
 
 class SecurityService:
@@ -102,7 +103,7 @@ class SecurityService:
                 "can_comment",
             ]
 
-            for key in permissions.keys():
+            for key in permissions:
                 if key not in valid_permissions:
                     raise ValueError(f"Invalid permission: {key}")
 

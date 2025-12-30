@@ -4,7 +4,7 @@ This module provides global error handling middleware.
 """
 
 import traceback
-from typing import Callable
+from collections.abc import Callable
 
 from fastapi import Request, Response
 from fastapi.responses import JSONResponse

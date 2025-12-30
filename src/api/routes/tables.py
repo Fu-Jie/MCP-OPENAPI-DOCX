@@ -12,7 +12,7 @@ from src.core.config import get_settings
 from src.core.exceptions import DocumentNotFoundError
 from src.handlers.document_handler import DocumentHandler
 from src.handlers.table_handler import TableHandler
-from src.models.schemas import TableCreate, TableUpdate, TableCellUpdate
+from src.models.schemas import TableCreate
 
 router = APIRouter(prefix="/documents/{document_id}/tables")
 

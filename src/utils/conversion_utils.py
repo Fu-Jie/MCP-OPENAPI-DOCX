@@ -5,7 +5,8 @@ data between different formats.
 """
 
 from typing import Any
-from docx.shared import Inches, Pt, Cm, Emu, Twips
+
+from docx.shared import Cm, Inches, Pt
 
 
 class ConversionUtils:

@@ -5,11 +5,12 @@ creation, modification, and data management.
 """
 
 from typing import Any
+
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from src.core.exceptions import DocumentProcessingError
 from src.handlers.document_handler import DocumentHandler
 from src.handlers.table_handler import TableHandler
-from src.core.exceptions import DocumentProcessingError
 
 
 class TableService:
@@ -53,7 +54,7 @@ class TableService:
         """
         try:
             doc = self.document_handler.load_document(document_path)
-            table = self.table_handler.create_table(doc, rows, cols, data, style)
+            self.table_handler.create_table(doc, rows, cols, data, style)
             self.document_handler.save_document(doc, document_path)
             return {
                 "success": True,

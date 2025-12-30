@@ -3,7 +3,6 @@
 This module provides health check endpoints for monitoring.
 """
 
-import time
 from typing import Any
 
 from fastapi import APIRouter, Depends
@@ -28,7 +27,6 @@ async def health_check(
     Returns:
         HealthStatus with service status information.
     """
-    from fastapi import Request
 
     return HealthStatus(
         status="healthy",

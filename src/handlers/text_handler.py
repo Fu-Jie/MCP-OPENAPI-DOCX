@@ -12,7 +12,7 @@ from docx.oxml.ns import qn
 from docx.shared import Pt, RGBColor
 
 from src.core.enums import TextAlignment
-from src.core.exceptions import InvalidDocumentError, ValidationError
+from src.core.exceptions import ValidationError
 from src.models.dto import ParagraphDTO, RunDTO
 from src.models.schemas import TextFormat
 
@@ -161,7 +161,7 @@ class TextHandler:
 
         # Now get the new paragraph through the document
         para = self._document.paragraphs[index]
-        run = para.add_run(text)
+        para.add_run(text)
 
         if style:
             para.style = style

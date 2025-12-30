@@ -11,7 +11,6 @@ from docx import Document
 
 from src.core.enums import RevisionAction
 from src.core.exceptions import ValidationError
-from src.models.dto import RevisionDTO
 
 
 class RevisionHandler:

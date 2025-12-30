@@ -5,18 +5,19 @@ document versions and history.
 """
 
 import os
-import uuid
 import shutil
-from typing import Any
+import uuid
 from datetime import datetime
-from sqlalchemy.ext.asyncio import AsyncSession
+from typing import Any
+
 from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
+from src.core.config import get_settings
+from src.core.exceptions import DocumentNotFoundError
 from src.handlers.document_handler import DocumentHandler
 from src.models.database import Document, DocumentVersion
-from src.core.config import get_settings
-from src.core.exceptions import DocumentNotFoundError, DocumentProcessingError
 
 
 class VersionService:

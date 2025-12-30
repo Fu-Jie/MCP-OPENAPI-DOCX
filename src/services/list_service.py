@@ -5,11 +5,12 @@ and managing lists in documents.
 """
 
 from typing import Any
+
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from src.core.exceptions import DocumentProcessingError
 from src.handlers.document_handler import DocumentHandler
 from src.handlers.list_handler import ListHandler
-from src.core.exceptions import DocumentProcessingError
 
 
 class ListService:

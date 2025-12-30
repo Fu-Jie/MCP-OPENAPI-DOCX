@@ -6,9 +6,8 @@ This module provides endpoints for text and paragraph operations.
 import os
 from typing import Any
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter
 
-from src.api.dependencies import DocHandler
 from src.core.config import get_settings
 from src.core.exceptions import DocumentNotFoundError
 from src.handlers.text_handler import TextHandler

@@ -4,8 +4,8 @@ This module provides compression utilities for working with
 compressed files and data.
 """
 
-import io
 import gzip
+import io
 import zipfile
 from typing import Any
 

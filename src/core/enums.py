@@ -3,7 +3,7 @@
 This module contains all enum classes used throughout the application.
 """
 
-from enum import Enum, IntEnum, auto
+from enum import Enum
 
 
 class DocumentStatus(str, Enum):

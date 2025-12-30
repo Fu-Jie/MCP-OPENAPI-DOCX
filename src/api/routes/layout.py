@@ -3,17 +3,18 @@
 This module provides endpoints for page layout operations.
 """
 
+import contextlib
 import os
 from typing import Any
 
 from fastapi import APIRouter
 
 from src.core.config import get_settings
-from src.core.enums import HeaderFooterType, PageOrientation, PageSize, SectionStart
+from src.core.enums import HeaderFooterType, SectionStart
 from src.core.exceptions import DocumentNotFoundError
 from src.handlers.document_handler import DocumentHandler
 from src.handlers.layout_handler import LayoutHandler
-from src.models.schemas import PageLayout, HeaderFooterContent
+from src.models.schemas import PageLayout
 
 router = APIRouter(prefix="/documents/{document_id}/layout")
 
@@ -151,10 +152,8 @@ async def add_section(
     doc_handler, handler = get_layout_handler(document_id)
 
     st = SectionStart.NEW_PAGE
-    try:
+    with contextlib.suppress(ValueError):
         st = SectionStart(start_type)
-    except ValueError:
-        pass
 
     index = handler.add_section(st)
     doc_handler.save_document()
@@ -224,10 +223,8 @@ async def get_header(
     _, handler = get_layout_handler(document_id)
 
     ht = HeaderFooterType.DEFAULT
-    try:
+    with contextlib.suppress(ValueError):
         ht = HeaderFooterType(header_type)
-    except ValueError:
-        pass
 
     content = handler.get_header(index, ht)
 
@@ -263,10 +260,8 @@ async def set_header(
     doc_handler, handler = get_layout_handler(document_id)
 
     ht = HeaderFooterType.DEFAULT
-    try:
+    with contextlib.suppress(ValueError):
         ht = HeaderFooterType(header_type)
-    except ValueError:
-        pass
 
     handler.set_header(text, index, ht)
     doc_handler.save_document()
@@ -301,10 +296,8 @@ async def get_footer(
     _, handler = get_layout_handler(document_id)
 
     ft = HeaderFooterType.DEFAULT
-    try:
+    with contextlib.suppress(ValueError):
         ft = HeaderFooterType(footer_type)
-    except ValueError:
-        pass
 
     content = handler.get_footer(index, ft)
 
@@ -340,10 +333,8 @@ async def set_footer(
     doc_handler, handler = get_layout_handler(document_id)
 
     ft = HeaderFooterType.DEFAULT
-    try:
+    with contextlib.suppress(ValueError):
         ft = HeaderFooterType(footer_type)
-    except ValueError:
-        pass
 
     handler.set_footer(text, index, ft)
     doc_handler.save_document()

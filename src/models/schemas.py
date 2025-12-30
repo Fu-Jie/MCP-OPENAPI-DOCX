@@ -11,7 +11,6 @@ from pydantic import BaseModel, ConfigDict, EmailStr, Field
 
 from src.core.enums import (
     CommentStatus,
-    DocumentFormat,
     DocumentStatus,
     ExportFormat,
     ListType,
@@ -22,7 +21,6 @@ from src.core.enums import (
     TextAlignment,
     UserRole,
 )
-
 
 # =============================================================================
 # Base Schemas

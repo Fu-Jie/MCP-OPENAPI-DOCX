@@ -5,12 +5,12 @@ document comments and annotations.
 """
 
 from typing import Any
-from datetime import datetime
+
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.handlers.document_handler import DocumentHandler
-from src.handlers.comment_handler import CommentHandler
 from src.core.exceptions import DocumentProcessingError
+from src.handlers.comment_handler import CommentHandler
+from src.handlers.document_handler import DocumentHandler
 
 
 class CommentService:

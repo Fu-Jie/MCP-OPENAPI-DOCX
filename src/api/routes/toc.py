@@ -12,7 +12,7 @@ from src.core.config import get_settings
 from src.core.exceptions import DocumentNotFoundError
 from src.handlers.document_handler import DocumentHandler
 from src.handlers.toc_handler import TocHandler
-from src.models.schemas import TocCreate, BookmarkCreate, HyperlinkCreate
+from src.models.schemas import BookmarkCreate, HyperlinkCreate, TocCreate
 
 router = APIRouter(prefix="/documents/{document_id}/toc")
 

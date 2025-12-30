@@ -3,6 +3,7 @@
 This module provides endpoints for style operations.
 """
 
+import contextlib
 import os
 from typing import Any
 
@@ -13,7 +14,7 @@ from src.core.enums import StyleType
 from src.core.exceptions import DocumentNotFoundError
 from src.handlers.document_handler import DocumentHandler
 from src.handlers.style_handler import StyleHandler
-from src.models.schemas import StyleCreate, StyleResponse
+from src.models.schemas import StyleCreate
 
 router = APIRouter(prefix="/documents/{document_id}/styles")
 
@@ -53,10 +54,8 @@ async def get_styles(
 
     st = None
     if style_type:
-        try:
+        with contextlib.suppress(ValueError):
             st = StyleType(style_type)
-        except ValueError:
-            pass
 
     styles = handler.get_all_styles(st)
 

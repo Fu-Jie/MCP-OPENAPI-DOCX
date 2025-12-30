@@ -3,7 +3,7 @@
 This module provides authentication middleware for API requests.
 """
 
-from typing import Callable
+from collections.abc import Callable
 
 from fastapi import Request, Response
 from jose import JWTError, jwt

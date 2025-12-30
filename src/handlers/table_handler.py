@@ -4,17 +4,12 @@ This module provides functionality for creating, reading, and modifying
 tables in DOCX documents.
 """
 
-from typing import Any
 
 from docx import Document
-from docx.enum.table import WD_TABLE_ALIGNMENT
-from docx.oxml import parse_xml
-from docx.oxml.ns import nsdecls, qn
-from docx.shared import Inches, Pt
-from docx.table import Table, _Cell, _Row
+from docx.shared import Inches
+from docx.table import Table
 
 from src.core.constants import MAX_TABLE_COLUMNS, MAX_TABLE_ROWS
-from src.core.enums import TableBorderStyle
 from src.core.exceptions import ValidationError
 from src.models.dto import CellDTO, TableDTO
 

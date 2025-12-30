@@ -6,10 +6,9 @@ images and other media in DOCX documents.
 
 import io
 from pathlib import Path
-from typing import Any, BinaryIO
 
 from docx import Document
-from docx.shared import Inches, Pt
+from docx.shared import Inches
 from PIL import Image
 
 from src.core.constants import MAX_IMAGE_DIMENSION, SUPPORTED_IMAGE_FORMATS

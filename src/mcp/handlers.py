@@ -5,19 +5,17 @@ and resource reading operations.
 """
 
 import json
-import os
 from typing import Any
 
-from src.core.config import get_settings
+from src.handlers.comment_handler import CommentHandler
 from src.handlers.document_handler import DocumentHandler
-from src.handlers.text_handler import TextHandler
-from src.handlers.table_handler import TableHandler
+from src.handlers.layout_handler import LayoutHandler
 from src.handlers.list_handler import ListHandler
 from src.handlers.media_handler import MediaHandler
 from src.handlers.style_handler import StyleHandler
-from src.handlers.layout_handler import LayoutHandler
+from src.handlers.table_handler import TableHandler
+from src.handlers.text_handler import TextHandler
 from src.handlers.toc_handler import TocHandler
-from src.handlers.comment_handler import CommentHandler
 
 
 class MCPHandler:
@@ -446,7 +444,7 @@ class MCPHandler:
         elif name == "get_comments":
             if self._comment_handler is None:
                 self._init_handlers()
-            comments = self._comment_handler.get_all_comments()
+            self._comment_handler.get_all_comments()
             return {"comments": self._comment_handler.export_comments()}
 
         elif name == "resolve_comment":

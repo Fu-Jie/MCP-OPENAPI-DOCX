@@ -5,11 +5,12 @@ images and other media in documents.
 """
 
 from typing import Any
+
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from src.core.exceptions import DocumentProcessingError
 from src.handlers.document_handler import DocumentHandler
 from src.handlers.media_handler import MediaHandler
-from src.core.exceptions import DocumentProcessingError
 
 
 class MediaService:

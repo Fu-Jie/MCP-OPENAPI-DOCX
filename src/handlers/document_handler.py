@@ -5,14 +5,12 @@ reading, writing, validation, and metadata extraction.
 """
 
 import io
-import os
 from pathlib import Path
 from typing import Any, BinaryIO
 
 from docx import Document
-from docx.shared import Inches, Pt
 
-from src.core.constants import DOCX_MIME_TYPE, SUPPORTED_FORMATS
+from src.core.constants import SUPPORTED_FORMATS
 from src.core.exceptions import InvalidDocumentError, UnsupportedFormatError
 from src.models.dto import DocumentMetadataDTO
 

@@ -12,8 +12,7 @@ from passlib.context import CryptContext
 
 from src.api.dependencies import CurrentUser
 from src.core.config import Settings, get_settings
-from src.core.enums import UserRole
-from src.models.schemas import UserCreate, UserLogin, UserResponse, TokenResponse
+from src.models.schemas import TokenResponse, UserCreate, UserLogin
 
 router = APIRouter(prefix="/auth")
 

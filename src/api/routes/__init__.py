@@ -1,23 +1,23 @@
 """API routes package."""
 
 from src.api.routes import (
+    batch,
+    comments,
     documents,
-    text,
-    tables,
+    export,
+    health,
+    layout,
     lists,
     media,
-    styles,
-    layout,
-    toc,
-    comments,
+    metadata,
     revisions,
     search,
-    export,
-    templates,
     security,
-    metadata,
-    batch,
-    health,
+    styles,
+    tables,
+    templates,
+    text,
+    toc,
 )
 
 __all__ = [

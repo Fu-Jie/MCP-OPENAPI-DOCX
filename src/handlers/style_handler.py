@@ -4,6 +4,7 @@ This module provides functionality for managing and applying
 styles in DOCX documents.
 """
 
+import contextlib
 from typing import Any
 
 from docx import Document
@@ -164,10 +165,8 @@ class StyleHandler:
 
         # Set base style
         if style_data.base_style:
-            try:
+            with contextlib.suppress(KeyError):
                 style.base_style = self._document.styles[style_data.base_style]
-            except KeyError:
-                pass
 
         # Apply font properties
         if style_data.font_name:

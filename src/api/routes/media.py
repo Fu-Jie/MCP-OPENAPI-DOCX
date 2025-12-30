@@ -12,7 +12,7 @@ from src.core.config import get_settings
 from src.core.exceptions import DocumentNotFoundError
 from src.handlers.document_handler import DocumentHandler
 from src.handlers.media_handler import MediaHandler
-from src.models.schemas import ImageInsert, ImageUpdate
+from src.models.schemas import ImageUpdate
 
 router = APIRouter(prefix="/documents/{document_id}/media")
 

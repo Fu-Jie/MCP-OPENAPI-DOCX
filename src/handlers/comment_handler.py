@@ -8,12 +8,9 @@ from datetime import datetime
 from typing import Any
 
 from docx import Document
-from docx.oxml import parse_xml
-from docx.oxml.ns import nsdecls, qn
 
 from src.core.enums import CommentStatus
 from src.core.exceptions import ValidationError
-from src.models.dto import CommentDTO
 
 
 class CommentHandler:

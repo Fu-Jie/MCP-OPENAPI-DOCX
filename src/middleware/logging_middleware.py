@@ -5,14 +5,11 @@ This module provides request/response logging middleware.
 
 import time
 import uuid
-from typing import Callable
+from collections.abc import Callable
 
+import structlog
 from fastapi import Request, Response
 from starlette.middleware.base import BaseHTTPMiddleware
-import structlog
-
-from src.core.config import get_settings
-
 
 logger = structlog.get_logger(__name__)
 

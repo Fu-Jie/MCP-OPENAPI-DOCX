@@ -8,17 +8,16 @@ and deleting documents.
 import os
 import uuid
 from datetime import datetime
-from typing import Any, BinaryIO
+from typing import Any
 
+from sqlalchemy import delete, select
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select, delete, update
 from sqlalchemy.orm import selectinload
 
 from src.core.config import get_settings
 from src.core.exceptions import (
     DocumentNotFoundError,
     DocumentProcessingError,
-    ValidationError,
 )
 from src.handlers.document_handler import DocumentHandler
 from src.models.database import Document, DocumentVersion

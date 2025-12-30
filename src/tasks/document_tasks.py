@@ -9,8 +9,8 @@ import shutil
 from datetime import datetime
 from typing import Any
 
-from src.tasks.celery_app import celery_app
 from src.core.config import get_settings
+from src.tasks.celery_app import celery_app
 from src.utils.logging_utils import get_logger
 
 logger = get_logger(__name__)

@@ -7,18 +7,16 @@ import os
 import uuid
 from typing import Any
 
-from fastapi import APIRouter, Depends, File, HTTPException, UploadFile, status
+from fastapi import APIRouter, Depends, File, UploadFile, status
 
-from src.api.dependencies import CurrentUserOptional, DocHandler
+from src.api.dependencies import DocHandler
 from src.core.config import get_settings
 from src.core.constants import DOCX_MIME_TYPE
 from src.core.exceptions import DocumentNotFoundError, InvalidDocumentError
 from src.models.schemas import (
     DocumentCreate,
-    DocumentResponse,
     DocumentUpdate,
     PaginatedResponse,
-    SuccessResponse,
 )
 
 router = APIRouter(prefix="/documents")
@@ -75,7 +73,7 @@ async def create_document(
         Created document information.
     """
     settings = get_settings()
-    doc = handler.create_document()
+    handler.create_document()
 
     # Set metadata
     handler.set_metadata(title=data.title)

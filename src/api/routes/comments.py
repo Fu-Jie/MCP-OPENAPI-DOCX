@@ -9,10 +9,9 @@ from typing import Any
 from fastapi import APIRouter
 
 from src.core.config import get_settings
-from src.core.enums import CommentStatus
 from src.core.exceptions import DocumentNotFoundError
-from src.handlers.document_handler import DocumentHandler
 from src.handlers.comment_handler import CommentHandler
+from src.handlers.document_handler import DocumentHandler
 from src.models.schemas import CommentCreate, CommentUpdate
 
 router = APIRouter(prefix="/documents/{document_id}/comments")
