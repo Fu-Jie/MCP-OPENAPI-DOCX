@@ -13,27 +13,44 @@ import secrets
 # This ensures compatibility with bcrypt>=4.0.0 which enforces the limit strictly
 try:
     import bcrypt as _bcrypt
-    _original_hashpw = _bcrypt.hashpw
-    _original_checkpw = _bcrypt.checkpw
     
-    def _truncate_password(password):
-        """Truncate password to 72 bytes for bcrypt."""
-        if isinstance(password, str):
-            password = password.encode('utf-8')
-        if len(password) > 72:
-            password = password[:72]
-        return password
-    
-    def _patched_hashpw(password, salt):
-        """Patched hashpw that truncates passwords to 72 bytes."""
-        return _original_hashpw(_truncate_password(password), salt)
-    
-    def _patched_checkpw(password, hashed_password):
-        """Patched checkpw that truncates passwords to 72 bytes."""
-        return _original_checkpw(_truncate_password(password), hashed_password)
-    
-    _bcrypt.hashpw = _patched_hashpw
-    _bcrypt.checkpw = _patched_checkpw
+    # Only patch if not already patched
+    if not hasattr(_bcrypt.hashpw, '_patched'):
+        _original_hashpw = _bcrypt.hashpw
+        _original_checkpw = _bcrypt.checkpw
+        
+        def _truncate_password(password):
+            """Truncate password to 72 bytes for bcrypt, preserving UTF-8 boundaries."""
+            if isinstance(password, str):
+                password = password.encode('utf-8')
+            if len(password) > 72:
+                # Truncate at 72 bytes, handling UTF-8 multi-byte characters properly
+                truncated = password[:72]
+                # UTF-8 continuation bytes start with bits 10xxxxxx (0x80-0xBF)
+                # Walk backward to remove any trailing continuation bytes
+                while truncated and (truncated[-1] & 0xC0) == 0x80:
+                    truncated = truncated[:-1]
+                # If the last byte is a multi-byte character start, remove it too
+                # since we don't have all its continuation bytes
+                if truncated and (truncated[-1] & 0x80) != 0:
+                    truncated = truncated[:-1]
+                password = truncated
+            return password
+        
+        def _patched_hashpw(password, salt):
+            """Patched hashpw that truncates passwords to 72 bytes."""
+            return _original_hashpw(_truncate_password(password), salt)
+        
+        def _patched_checkpw(password, hashed_password):
+            """Patched checkpw that truncates passwords to 72 bytes."""
+            return _original_checkpw(_truncate_password(password), hashed_password)
+        
+        # Mark as patched to prevent double-patching
+        _patched_hashpw._patched = True
+        _patched_checkpw._patched = True
+        
+        _bcrypt.hashpw = _patched_hashpw
+        _bcrypt.checkpw = _patched_checkpw
 except ImportError:
     pass  # bcrypt not installed
 
@@ -61,12 +78,22 @@ class SecurityUtils:
         
         Note:
             Bcrypt has a 72-byte limit. Passwords are automatically
-            truncated to this length.
+            truncated to this length, preserving UTF-8 character boundaries.
         """
         # Bcrypt limitation: passwords cannot exceed 72 bytes
         password_bytes = password.encode('utf-8')
         if len(password_bytes) > 72:
-            password = password_bytes[:72].decode('utf-8', errors='ignore')
+            # Truncate at 72 bytes, handling UTF-8 multi-byte characters properly
+            truncated = password_bytes[:72]
+            # UTF-8 continuation bytes start with bits 10xxxxxx (0x80-0xBF)
+            # Walk backward to remove any trailing continuation bytes
+            while truncated and (truncated[-1] & 0xC0) == 0x80:
+                truncated = truncated[:-1]
+            # If the last byte is a multi-byte character start, remove it too
+            # since we don't have all its continuation bytes
+            if truncated and (truncated[-1] & 0x80) != 0:
+                truncated = truncated[:-1]
+            password = truncated.decode('utf-8')
         return pwd_context.hash(password)
 
     @staticmethod
@@ -83,7 +110,17 @@ class SecurityUtils:
         # Apply same truncation as in hash_password for consistency
         password_bytes = plain.encode('utf-8')
         if len(password_bytes) > 72:
-            plain = password_bytes[:72].decode('utf-8', errors='ignore')
+            # Truncate at 72 bytes, handling UTF-8 multi-byte characters properly
+            truncated = password_bytes[:72]
+            # UTF-8 continuation bytes start with bits 10xxxxxx (0x80-0xBF)
+            # Walk backward to remove any trailing continuation bytes
+            while truncated and (truncated[-1] & 0xC0) == 0x80:
+                truncated = truncated[:-1]
+            # If the last byte is a multi-byte character start, remove it too
+            # since we don't have all its continuation bytes
+            if truncated and (truncated[-1] & 0x80) != 0:
+                truncated = truncated[:-1]
+            plain = truncated.decode('utf-8')
         return pwd_context.verify(plain, hashed)
 
     @staticmethod
