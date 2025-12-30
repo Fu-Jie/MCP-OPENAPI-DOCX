@@ -9,14 +9,13 @@ import asyncio
 import logging
 from typing import Any
 
+from mcp.server import Server
 from mcp.server.stdio import stdio_server
 from mcp.types import (
     Resource,
     TextContent,
     Tool,
 )
-
-from mcp.server import Server
 from src.core.config import get_settings
 from src.mcp.handlers import MCPHandler
 from src.mcp.resources import register_resources
