@@ -25,6 +25,13 @@ def _truncate_to_72_bytes_utf8_safe(data):
     Note:
         This helper is used by both the bcrypt monkey-patch and SecurityUtils.
         It handles UTF-8 multi-byte characters properly to avoid partial characters.
+        
+        UTF-8 Encoding:
+        - 0x00-0x7F: Single-byte characters (ASCII)
+        - 0x80-0xBF: Continuation bytes (10xxxxxx)
+        - 0xC0-0xDF: 2-byte sequence start (110xxxxx)
+        - 0xE0-0xEF: 3-byte sequence start (1110xxxx)
+        - 0xF0-0xF7: 4-byte sequence start (11110xxx)
     """
     if isinstance(data, str):
         data = data.encode('utf-8')
@@ -40,18 +47,26 @@ def _truncate_to_72_bytes_utf8_safe(data):
         truncated = truncated[:-1]
         
     # If the last byte is a multi-byte character start (>= 0xC0), remove it too
-    # since we don't have all its continuation bytes
+    # since we don't have all its continuation bytes.
+    # Note: In UTF-8, bytes >= 0xC0 are ALWAYS multi-byte sequence starts.
+    # There are no valid single-byte characters with values >= 0x80 in UTF-8.
     if truncated and truncated[-1] >= 0xC0:
         truncated = truncated[:-1]
         
     return truncated
 
 
+# Monkey-patch bcrypt to handle 72-byte limit before passlib loads
+# This ensures compatibility with bcrypt>=4.0.0 which enforces the limit strictly
+
+# Track whether bcrypt has been patched
+_bcrypt_patched = False
+
 try:
     import bcrypt as _bcrypt
     
     # Only patch if not already patched
-    if not hasattr(_bcrypt.hashpw, '_patched'):
+    if not _bcrypt_patched:
         _original_hashpw = _bcrypt.hashpw
         _original_checkpw = _bcrypt.checkpw
         
@@ -63,12 +78,9 @@ try:
             """Patched checkpw that truncates passwords to 72 bytes."""
             return _original_checkpw(_truncate_to_72_bytes_utf8_safe(password), hashed_password)
         
-        # Mark as patched to prevent double-patching
-        _patched_hashpw._patched = True
-        _patched_checkpw._patched = True
-        
         _bcrypt.hashpw = _patched_hashpw
         _bcrypt.checkpw = _patched_checkpw
+        _bcrypt_patched = True
 except ImportError:
     pass  # bcrypt not installed
 
@@ -97,9 +109,17 @@ class SecurityUtils:
         Note:
             This is an internal helper method that handles bcrypt's 72-byte limit.
             It uses the shared _truncate_to_72_bytes_utf8_safe() function.
+            The algorithm ensures valid UTF-8 output by properly handling
+            multi-byte character boundaries.
         """
         truncated_bytes = _truncate_to_72_bytes_utf8_safe(password)
-        return truncated_bytes.decode('utf-8')
+        # The truncation algorithm guarantees valid UTF-8, but be defensive
+        try:
+            return truncated_bytes.decode('utf-8')
+        except UnicodeDecodeError:
+            # This should never happen with the current algorithm, but if it does,
+            # fall back to strict truncation with error handling
+            return truncated_bytes.decode('utf-8', errors='ignore')
 
     @staticmethod
     def hash_password(password: str) -> str:
