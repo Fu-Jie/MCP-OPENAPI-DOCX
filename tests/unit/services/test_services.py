@@ -1,7 +1,7 @@
 """Unit tests for services."""
 
 import pytest
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import MagicMock, patch
 
 
 class TestDocumentService:
@@ -14,15 +14,10 @@ class TestDocumentService:
 
         service = DocumentService(db_session)
 
-        # Mock the handler methods
-        with patch.object(service.document_handler, 'create_document') as mock_create:
-            with patch.object(service.document_handler, 'save_document'):
-                mock_doc = MagicMock()
-                mock_create.return_value = mock_doc
-
-                # This test verifies the service can be instantiated
-                assert service is not None
-                assert service.db == db_session
+        # This test verifies the service can be instantiated
+        assert service is not None
+        assert service.db == db_session
+        assert service.document_handler is not None
 
     @pytest.mark.asyncio
     async def test_list_documents(self, db_session):

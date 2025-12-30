@@ -40,18 +40,28 @@ class LayoutHandler:
         SectionStart.NEW_COLUMN: WD_SECTION.NEW_COLUMN,
     }
 
-    def __init__(self, document: Document) -> None:
+    def __init__(self, document: Document | None = None) -> None:
         """Initialize the layout handler.
 
         Args:
-            document: The Document instance to work with.
+            document: The Document instance to work with (optional).
         """
         self._document = document
 
     @property
     def document(self) -> Document:
         """Get the document instance."""
+        if self._document is None:
+            raise ValueError("No document loaded")
         return self._document
+
+    def set_document(self, document: Document) -> None:
+        """Set the document instance.
+
+        Args:
+            document: The Document instance to work with.
+        """
+        self._document = document
 
     def get_section(self, index: int) -> SectionDTO:
         """Get a section by index.

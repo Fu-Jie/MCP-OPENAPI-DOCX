@@ -1,7 +1,6 @@
 """Integration tests for MCP server."""
 
 import pytest
-from unittest.mock import MagicMock, patch
 
 
 class TestMCPTools:
@@ -9,18 +8,20 @@ class TestMCPTools:
 
     def test_tools_registry_exists(self):
         """Test that tools registry is properly set up."""
-        from src.mcp.tools import TOOLS
+        from src.mcp.tools import register_tools
 
-        assert TOOLS is not None
-        assert isinstance(TOOLS, dict)
-        assert len(TOOLS) > 0
+        tools = register_tools()
+        assert tools is not None
+        assert isinstance(tools, list)
+        assert len(tools) > 0
 
     def test_document_tools_defined(self):
         """Test that document tools are defined."""
-        from src.mcp.tools import TOOLS
+        from src.mcp.tools import register_tools
 
+        tools = register_tools()
         # Check for some expected tools
-        tool_names = list(TOOLS.keys())
+        tool_names = [t.name for t in tools]
         assert len(tool_names) > 0
 
         # Should have document-related tools
@@ -29,11 +30,12 @@ class TestMCPTools:
 
     def test_tool_has_description(self):
         """Test that tools have descriptions."""
-        from src.mcp.tools import TOOLS
+        from src.mcp.tools import register_tools
 
-        for name, tool in TOOLS.items():
-            assert "description" in tool, f"Tool {name} missing description"
-            assert len(tool["description"]) > 0
+        tools = register_tools()
+        for tool in tools:
+            assert tool.description is not None, f"Tool {tool.name} missing description"
+            assert len(tool.description) > 0
 
 
 class TestMCPResources:
@@ -41,10 +43,11 @@ class TestMCPResources:
 
     def test_resources_list(self):
         """Test that resources are defined."""
-        from src.mcp.resources import RESOURCES
+        from src.mcp.resources import register_resources
 
-        assert RESOURCES is not None
-        assert isinstance(RESOURCES, list)
+        resources = register_resources()
+        assert resources is not None
+        assert isinstance(resources, list)
 
 
 class TestMCPHandlers:
@@ -64,10 +67,17 @@ class TestMCPHandlers:
 
         handler = MCPHandler()
 
-        # Test with a simple tool
-        result = await handler.handle_tool_call(
-            tool_name="get_document_info",
-            arguments={"document_id": "test-123"}
+        # First create a document so we can get info about it
+        await handler.execute_tool(
+            name="create_document",
+            arguments={"title": "Test Document"}
+        )
+
+        # Test getting document info
+        result = await handler.execute_tool(
+            name="get_document_info",
+            arguments={}
         )
 
         assert result is not None
+        assert "paragraphs" in result or "error" not in result

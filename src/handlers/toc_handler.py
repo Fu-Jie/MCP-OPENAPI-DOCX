@@ -21,18 +21,28 @@ class TocHandler:
     bookmarks, and hyperlinks in DOCX documents.
     """
 
-    def __init__(self, document: Document) -> None:
+    def __init__(self, document: Document | None = None) -> None:
         """Initialize the TOC handler.
 
         Args:
-            document: The Document instance to work with.
+            document: The Document instance to work with (optional).
         """
         self._document = document
 
     @property
     def document(self) -> Document:
         """Get the document instance."""
+        if self._document is None:
+            raise ValueError("No document loaded")
         return self._document
+
+    def set_document(self, document: Document) -> None:
+        """Set the document instance.
+
+        Args:
+            document: The Document instance to work with.
+        """
+        self._document = document
 
     def add_table_of_contents(
         self,
